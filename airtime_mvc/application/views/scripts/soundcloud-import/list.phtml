@@ -1,0 +1,180 @@
+<div class="upload_wrapper">
+	<div id="soundcloud-import" class="container upload_container lib-content ui-widget ui-widget-content block-shadow alpha-block padded" style="">
+		
+		<div class="tabbable">
+			<div class="navbar navbar-inverse">
+				<div class="navbar-inner">
+				<div class="brand">
+					<span>Soundcloud:</span>
+					 <a href="<?php echo $this->user['permalink_url']; ?>" target="_blank">
+					 	<?php if($this->user['avatar_url'] && $this->user['avatar_url'] != ''): ?>
+							 <img class="souncloud-avatar" src="<?php echo $this->user['avatar_url']; ?>" title="<?php echo $this->user['username']; ?>" />
+						<?php endif; ?>
+						<?php echo $this->user['username']; ?>
+					</a>
+				</div>
+			<ul class="nav">
+				<li class="active"><a href="#profile-tab" data-toggle="tab">Profile</a></li>
+				  <li class="dropdown">
+				    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				        Groups
+				        <b class="caret gray-caret"></b>
+				      </a>
+				    <?php if(count($this->groups) > 0): ?>
+					    <ul class="dropdown-menu">
+					      <?php foreach ($this->groups as $group): ?>
+					      		<?php if($group['kind'] == 'group' && $group['creator']['id'] == $this->user['id'] ): ?>
+					      				<li><a href="#groups-<?php echo $group['id']; ?>" data-toggle="tab"><?php echo $group['name']; ?></a></li>
+						      	<?php endif; ?>
+						  <?php endforeach; ?>
+					    </ul>
+					<?php endif; ?>
+				  </li>
+				  <li>
+					<button class="btn btn-small" id="sclibrary-plus">
+						<i class="icon-white icon-plus"></i><span id="sclib-plus-text"> Import Selected</span>
+					</button>
+					<button class="btn btn-small" id="sb-trash">
+						<i class="icon-white icon-trash"></i>
+					</button>
+				  </li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- processing message -->
+	<div id="import_status" class="library_import" style="display:none"><div>File import in progress...</div><img src="/css/images/file_import_loader.gif"></img></div>	
+	<div id="alert-box" class="alert" style="display:none;margin:10px 0;">
+	  <span class="plupload_upload_status"></span>
+	  <button type="button" class="close" data-dismiss="alert">&times;</button>
+	</div>
+
+			<div class="tab-content">
+
+		    <div id="profile-tab" class="tab-pane active">
+				<!-- soundcloud profile track list -->
+		        <div class="dataTables_wrapper">
+
+			        <div class="dataTables_scrolling scprofile" style="max-height: 400px;">
+					   <table id="sclibrary_display" cellpadding="0" cellspacing="0" class="datatable dataTable" aria-describedby="sclibrary_display_info">
+							<thead>
+					         <tr role="row">
+					            <th class="sclibrary_checkbox ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 25px;" aria-label="">
+					               <div class="DataTables_sort_wrapper"><span class="DataTables_sort_icon"></span></div>
+					            </th>
+					            <th class="sclibrary_title ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 170px;" aria-label="Title: activate to sort column ascending">
+					               <div class="DataTables_sort_wrapper">Title<span class="DataTables_sort_icon css_right ui-icon ui-icon-triangle-1-n"></span></div>
+					            </th>
+					            <th class="sclibrary_creator ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 160px;" aria-label="Username: activate to sort column ascending">
+					               <div class="DataTables_sort_wrapper">Username<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
+					            </th>
+					            <th class="sclibrary_length ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Length: activate to sort column ascending">
+					               <div class="DataTables_sort_wrapper">Length<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
+					            </th>
+					            <th class="sclibrary_upload_time ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 125px;" aria-label="Created: activate to sort column ascending">
+					               <div class="DataTables_sort_wrapper">Created<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
+					            </th>
+					         </tr>
+					      </thead>
+
+					      <tbody role="alert" aria-live="polite" aria-relevant="all">
+						  <? foreach ($this->tracks as $index => $track): ?>
+						  <?php if($track['streamable']): ?>
+					         <tr class="<?= $index % 2 ? 'odd' : 'even' ?> sc-audio ui-draggable" id="sc_<?= $track['id'] ?>">
+					            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?= $track['id'] ?>" /></td>
+					            <td class="sclibrary_title sorting_1"><a target="soundcloud" href="<?= $track['permalink_url'] ?><?= $track['sharing']=='public'?'':'/'.$track['secret_token'] ?>" class="text-link soundcloud-title"><?= $track['title'] ?></a></td>
+					            <td class="sclibrary_creator"><?= $track['user']['username'] ?></td>
+					            <td class="sclibrary_length">
+									<? $sec = $track['duration'] / 1000 ?>
+								    <? printf('%d', $sec / 60 % 60) ?>:<? printf('%d', $sec % 60) ?>
+					            </td>
+					            <td class="sclibrary_upload_time"><?= $track['created_at'] ?></td>
+					         </tr>
+					     <?php endif; ?>
+						 <? endforeach ?>
+
+						</tbody>
+					</table>
+
+				</div><!-- ./scprofile -->
+			</div><!-- /.dataTables_wrapper -->
+
+
+		</div><!-- /#profile-tab -->
+
+							<!-- groups tab panes -->
+
+							      <?php foreach ($this->groups as $group): ?>
+							      		<?php if($group['kind'] == 'group' && $group['creator']['id'] == $this->user['id'] ): ?>
+											<div id="groups-<?php echo $group['id']; ?>" class="tab-pane">
+												<ul class="breadcrumb">
+												  <li>Groups <span class="divider">/</span></li>
+												  <li class="active"><?php echo $group['name'] . ': ' . $group['short_description']; ?>
+													<span class="label">Approved/Downloadable Tracks</span>
+												  </li>
+												</ul>
+
+									        <div class="dataTables_wrapper">
+
+										        <div class="dataTables_scrolling scgroup" style="max-height: 400px;">
+												   <table id="sclibrary_display" cellpadding="0" cellspacing="0" class="datatable dataTable" aria-describedby="sclibrary_display_info">
+														<thead>
+												         <tr role="row">
+												            <th class="sclibrary_checkbox ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 25px;" aria-label="">
+												               <div class="DataTables_sort_wrapper"><span class="DataTables_sort_icon"></span></div>
+												            </th>
+												            <th class="sclibrary_title ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 170px;" aria-label="Title: activate to sort column ascending">
+												               <div class="DataTables_sort_wrapper">Title<span class="DataTables_sort_icon css_right ui-icon ui-icon-triangle-1-n"></span></div>
+												            </th>
+												            <th class="sclibrary_creator ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 160px;" aria-label="Username: activate to sort column ascending">
+												               <div class="DataTables_sort_wrapper">Username<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
+												            </th>
+												            <th class="sclibrary_length ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Length: activate to sort column ascending">
+												               <div class="DataTables_sort_wrapper">Length<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
+												            </th>
+												            <th class="sclibrary_upload_time ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 125px;" aria-label="Created: activate to sort column ascending">
+												               <div class="DataTables_sort_wrapper">Created<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
+												            </th>
+												         </tr>
+												      </thead>
+
+												      <tbody role="alert" aria-live="polite" aria-relevant="all">
+
+													<?php foreach ($group['tracks'] as $track): ?> 
+													  <?php if($track['streamable']): ?>
+												         <tr class="<?= $index % 2 ? 'odd' : 'even' ?> sc-audio ui-draggable" id="sc_<?= $track['id'] ?>">
+												            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?= $track['id'] ?>" /></td>
+												            <td class="sclibrary_title sorting_1"><a target="soundcloud" href="<?= $track['permalink_url'] ?><?= $track['sharing']=='public'?'':'/'.$track['secret_token'] ?>" class="text-link soundcloud-title"><?= $track['title'] ?></a></td>
+												            <td class="sclibrary_creator"><?= $track['user']['username'] ?></td>
+												            <td class="sclibrary_length">
+																<? $sec = $track['duration'] / 1000 ?>
+															    <? printf('%d', $sec / 60 % 60) ?>:<? printf('%d', $sec % 60) ?>
+												            </td>
+												            <td class="sclibrary_upload_time"><?= $track['created_at'] ?></td>
+												         </tr>
+												       <?php endif; ?>
+													  <?php endforeach; ?>
+
+												</div>
+
+												</div> <!-- /#groups-<?php echo $this->group['id']; ?> -->
+												</tbody>
+											</table>
+
+										</div><!-- ./scgroup -->
+									</div><!-- /.dataTables_wrapper -->
+
+						      	<?php endif; ?>
+						  <?php endforeach; ?>
+
+
+
+	</div> <!-- /.tab-content -->
+
+</div><!-- /.tabbable -->
+
+
+
+	</div><!-- /#soundcloud-import -->
+</div> <!-- /.upload_wrapper -->
+
