@@ -123,6 +123,34 @@ $pages = array(
     )
 );
 
+if(Application_Model_Preference::GetUploadToSoundcloudOption()){
+    //Add the Soundcloud Import as sub-page of the Add Media nav item
+    foreach ($pages as &$page) {
+        if(is_array($page) && $page['resource'] == 'plupload'){
+            $soundcloudNav =  array(
+                'label'      => 'Add Media',
+                'module'     => 'default',
+                'controller' => 'Plupload',
+                'action'     => 'index',
+                'resource'   => 'plupload',
+                'pages'      =>  array(
+                        array(
+                            'label'      => 'Local File',
+                            'module'     => 'default',
+                            'controller' => 'Plupload'
+                        ),
+                        array(
+                            'label'      => 'Soundcloud',
+                            'module'     => 'default',
+                            'controller' => 'soundcloud-import'
+                        )
+                )
+            );
+            $page = $soundcloudNav;
+        }
+    }
+}
+
 
 // Create container from array
 $container = new Zend_Navigation($pages);

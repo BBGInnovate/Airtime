@@ -290,7 +290,11 @@ class LibraryController extends Zend_Controller_Action
                 $text = _("Upload to SoundCloud");
             }
 
-            $menu["soundcloud"]["items"]["upload"] = array("name" => $text, "icon" => "soundcloud", "url" => $baseUrl."library/upload-file-soundcloud/id/{$id}");
+            $menu["soundcloud"]["items"]["upload"] = array("name" => $text, "icon" => "soundcloud", "url" => $baseUrl."/library/upload-file-soundcloud/id/{$id}");
+
+            if ($scid > 0) {
+                $menu["soundcloud"]["items"]["update"] = array("name" => "Update SoundCloud Tags", "icon" => "soundcloud", "url" => $baseUrl . "/soundcloud-import/update-tags/scid/{$scid}/id/{$id}");
+            }
         }
 
         if (empty($menu)) {

@@ -471,7 +471,7 @@ class ApiController extends Zend_Controller_Action
 
         if (!$showCanceled && Application_Model_Preference::GetAutoUploadRecordedShowToSoundcloud()) {
             $id = $file->getId();
-            Application_Model_Soundcloud::uploadSoundcloud($id);
+            Application_Service_Soundcloud::uploadSoundcloud($id);
         }
     }
 

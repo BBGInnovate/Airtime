@@ -970,13 +970,18 @@ SQL;
                 ."uploading has a size of %s MB."), $freeSpace, $fileSize));
         }
 
+        //Check if the file to be moved is a .metadata file
+        $isMetadata = (pathinfo($audio_file, PATHINFO_EXTENSION) == 'metadata') ? TRUE : FALSE;
+
         // Check if liquidsoap can play this file
-        if (!self::liquidsoapFilePlayabilityTest($audio_file)) {
-            return array(
-                "code"    => 110,
-                "message" => _("This file appears to be corrupted and will not "
-                ."be added to media library."));
-        }
+        if (!$isMetadata) {
+			if (!self::liquidsoapFilePlayabilityTest($audio_file)) {
+				return array(
+					"code"    => 110,
+					"message" => _("This file appears to be corrupted and will not "
+					."be added to media library."));
+			}
+		}
 
         // Did all the checks for real, now trying to copy
         $audio_stor = Application_Common_OsPath::join($stor, "organize",
@@ -987,16 +992,20 @@ SQL;
         } else {
             $uid = $user->getId();
         }
-        $id_file = "$audio_stor.identifier";
-        if (file_put_contents($id_file, $uid) === false) {
-            Logging::info("Could not write file to identify user: '$uid'");
-            Logging::info("Id file path: '$id_file'");
-            Logging::info("Defaulting to admin (no identification file was
-                written)");
-        } else {
-            Logging::info("Successfully written identification file for
-                uploaded '$audio_stor'");
-        }
+        
+        if (!$isMetadata) {
+			$id_file = "$audio_stor.identifier";
+			if (file_put_contents($id_file, $uid) === false) {
+				Logging::info("Could not write file to identify user: '$uid'");
+				Logging::info("Id file path: '$id_file'");
+				Logging::info("Defaulting to admin (no identification file was
+					written)");
+			} else {
+				Logging::info("Successfully written identification file for
+					uploaded '$audio_stor'");
+			}
+		}
+		
         //if the uploaded file is not UTF-8 encoded, let's encode it. Assuming source
         //encoding is ISO-8859-1
         $audio_stor = mb_detect_encoding($audio_stor, "UTF-8") == "UTF-8" ? $audio_stor : utf8_encode($audio_stor);
@@ -1259,7 +1268,7 @@ SQL;
                 $genre       = $file->getDbGenre();
                 $release     = $file->getDbUtime();
                 try {
-                    $soundcloud     = new Application_Model_Soundcloud();
+                    $soundcloud     = new Application_Service_Soundcloud();
                     $soundcloud_res = $soundcloud->uploadTrack(
                         $this->getFilePath(), $this->getName(), $description,
                         $tag, $release, $genre);

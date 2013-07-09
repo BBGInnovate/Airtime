@@ -2984,6 +2984,81 @@ dd .stream-status {
     top: 0px;
     left: 0px;
 }
+/* Twitter bootstrap Pill styles */
+.nav-pills > li > a{
+	text-decoration: none;
+	font-weight: bold;
+	color: #000;
+}
+.nav-pills > .active > a, .nav-pills > .active > a:hover {
+	background-color: #FF611F !important;
+	color: #FFF;
+}
+.nav-pills{
+	margin: 10px 0;
+}
+
+/* soundcloud import */
+img.souncloud-avatar, img.soundcloud-artwork{
+	width:15px;
+	height:15px;
+	margin:0 2px 0 5px;
+}
+.upload_wrapper {
+	font: normal 11px Verdana,sans-serif;
+	width: 98%;
+}
+.upload_container {
+	padding: 8px;
+	background: url('img/transp50.png');
+	width: 100%;
+	/*-moz-border-radius: 5px;*/
+}
+.upload_header {
+	background: #2A2C2E url('img/backgrounds.gif') repeat-x;
+}
+.upload_header_content a{
+	color:#FFF;
+	text-decoration: none;
+	font-weight: bold;
+}
+.upload_header_content {
+	min-height: 56px;
+	padding-left: 10px;
+	padding-bottom: 5px;
+	color: #FFF;
+}
+.upload_header_title {
+	font: normal 18px sans-serif;
+	padding: 6px 0 3px;
+}
+.upload_header_text {
+	font: normal 12px sans-serif;
+}
+.gray-caret
+{
+	border-top-color: #999;
+	border-bottom-color: #999;
+}
+.tabbable .navbar{
+	margin-bottom: 5px;
+}
+.tab-pane .breadcrumb{
+	background-color: #CCC;
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px 0;
+}
+.tab-pane ul.breadcrumb li{
+	list-style-type: none;
+	display: inline;
+}
+.navbar .navbar-inner a{
+	text-decoration: none;
+	color: #999;
+}
 
 .edit-user-global dt {
     width: 150px;

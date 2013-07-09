@@ -1039,7 +1039,28 @@ var AIRTIME = (function(AIRTIME) {
                             };
                             soundcloud.view.callback = callback;
                         }
+
+                        // define an update metadata on soundcloud callback
+                        if (soundcloud.update !== undefined) {
+                            
+                            callback = function() {
+                                addProgressIcon(soundcloud.update.id);
+                                request = $.ajax({
+                                  url: baseUrl + soundcloud.update.url,
+                                  type: "POST",
+                                  data: {id : soundcloud.update.scid, format : "json"}, //the soundcloud track id
+                                  dataType: "json",
+                                  async: false,
+                                  success: function(msg){
+                                  
+                                  }
+                                });
+
+                            };
+                            soundcloud.update.callback = callback;
+                        }
                     }
+                    
                     // add callbacks for duplicate menu items.
                     if (oItems.duplicate !== undefined) {
                         var url = oItems.duplicate.url;

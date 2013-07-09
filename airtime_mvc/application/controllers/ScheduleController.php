@@ -229,7 +229,7 @@ class ScheduleController extends Zend_Controller_Action
 
         $file = $show_inst->getRecordedFile();
         $id = $file->getId();
-        Application_Model_Soundcloud::uploadSoundcloud($id);
+        Application_Service_Soundcloud::uploadSoundcloud($id);
         // we should die with ui info
         $this->_helper->json->sendJson(null);
     }

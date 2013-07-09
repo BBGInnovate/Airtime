@@ -150,7 +150,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         Zend_Controller_Front::getInstance()->throwExceptions(true);
 
-        /*
+        
         if (APPLICATION_ENV == "development") {
             $autoloader = Zend_Loader_Autoloader::getInstance();
             $autoloader->registerNamespace('ZFDebug');
@@ -167,7 +167,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $frontController = $this->getResource('frontController');
             $frontController->registerPlugin($debug);
         }
-        */
+        
     }
 
     protected function _initRouter()
@@ -182,6 +182,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 'controller' => 'login',
                 'action' => 'password-change',
             )));
+    }    
+    
+    protected function _initResourceLoader()
+    {
+        $this->_resourceLoader->addResourceType( 'service', 'services', 'Soundcloud' );
     }
+
 }
 
