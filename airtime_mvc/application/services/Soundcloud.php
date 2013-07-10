@@ -13,7 +13,7 @@ class Application_Service_Soundcloud
 
     public function __construct()
     {
-        global $CC_CONFIG;
+        $CC_CONFIG = Config::getConfig();
         $this->_soundcloud = new Services_Soundcloud(
             $CC_CONFIG['soundcloud-client-id'],
             $CC_CONFIG['soundcloud-client-secret']);
@@ -37,7 +37,8 @@ class Application_Service_Soundcloud
         "bpm"           => "bpm",
     );
 
-    public function getTempDirectory(){
+    public function getTempDirectory()
+    {
         $tmp = ini_get("upload_tmp_dir") . DIRECTORY_SEPARATOR . "soundcloud" . DIRECTORY_SEPARATOR;
         if (!file_exists($tmp)){
             @mkdir($tmp, 0775, true);
@@ -45,7 +46,8 @@ class Application_Service_Soundcloud
         return $tmp;
     }
 
-    public function getscMD(){
+    public function getscMD()
+    {
         return $this->$_scMD;
     }
 
@@ -415,6 +417,7 @@ SQL;
                     //move to stor
                     $copy = Application_Model_StoredFile::copyFileToStor($destination, $mdFilename, $mdFilename);
                     if(is_null($copy)){
+                        Logging::info("Successfully written metadata file'$mdFilename'");
                         return TRUE;
                     } else {
                         return FALSE;
