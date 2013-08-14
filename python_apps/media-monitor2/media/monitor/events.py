@@ -183,6 +183,33 @@ class NewFile(BaseEvent, HasMetaData):
         req_dict['is_record'] = self.metadata.is_recorded()
         self.assign_owner(req_dict)
         req_dict['MDATA_KEY_FILEPATH'] = unicode( self.path )
+        """
+        If an imported file has associated metadata text file with ".metadata" extension
+        Then update the metadata with values from this file
+        This is useful for updating files imported from web services (like Soundcloud) which don't write metadata to the file
+        """
+        #TODO: how do i get the import directory from airtime instead of hardcoded value?
+        metadata_text_file = '/srv/airtime/stor/organize/'
+        metadata_text_file += os.path.splitext(os.path.basename(self.path))[0]
+        metadata_text_file += '.metadata'
+        #strip the prefix/suffix that airtime adds to the filename (ie: unknown-ThisIsTheTitle-192kbps.mp3)
+        #TODO: better regex, like starts with unknown, only kbps if at the end of the title, etc.
+        pattern = 'unknown-|-[0-9]+kbps'
+        metadata_text_file = re.sub(pattern, '', metadata_text_file)
+        if os.path.exists(metadata_text_file):
+            self.logger.info("Update metadata from metadata file: %s" % metadata_text_file  )
+            f = open(metadata_text_file)
+            for line in f:
+                md_item = line.strip().split('=')
+                if md_item[0] == 'track_title':
+                    req_dict['MDATA_KEY_TITLE'] = md_item[1]
+                elif md_item[0] == 'artist_name':
+                    req_dict['MDATA_KEY_CREATOR'] = md_item[1]
+                elif md_item[0] == 'album_title':
+                    req_dict['MDATA_KEY_SOURCE'] = md_item[1]
+                elif md_item[0] == 'copyright':
+                    req_dict['MDATA_KEY_COPYRIGHT'] = md_item[1]
+            os.unlink(metadata_text_file)
         return [req_dict]
 
 class DeleteFile(BaseEvent):
