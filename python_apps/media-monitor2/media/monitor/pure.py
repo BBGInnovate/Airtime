@@ -250,6 +250,7 @@ def organized_path(old_path, root_path, orig_md):
     normalized
     return value: new file path
     """
+
     filepath = None
     ext = extension(old_path)
     def default_f(dictionary, key):

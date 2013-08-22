@@ -125,6 +125,7 @@ class Metadata(Loggable):
                 except (EasyMP4KeyError, EasyID3KeyError) as e:
                     exceptions.append(InvalidMetadataElement(e, airtime_k,
                         path))
+
         song_file.save()
         # bubble dem up so that user knows that something is wrong
         for e in exceptions: raise e

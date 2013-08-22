@@ -174,7 +174,7 @@ class Application_Service_Soundcloud
 
         } catch(Services_Soundcloud_Invalid_Http_Response_Code_Exception $e){
 
-            return array("code"=>$e->getHttpCode, "error"=>$e->getHttpBody);
+            return array("error"=>$e->getMessage());
         }
     }
 
@@ -221,7 +221,7 @@ class Application_Service_Soundcloud
 
         } catch(Services_Soundcloud_Invalid_Http_Response_Code_Exception $e){
 
-            return array("code"=>$e->getHttpCode, "error"=>$e->getHttpBody);
+            return array("error"=>$e->getMessage());
         }
     }
 
@@ -284,7 +284,7 @@ SQL;
             }
 
         } catch(Services_Soundcloud_Invalid_Http_Response_Code_Exception $e){
-            return array("code"=>$e->getHttpCode, "error"=>$e->getHttpBody);
+            return array("error"=>$e->getMessage());
         }
     }
 
@@ -377,13 +377,15 @@ SQL;
     * @param $filename string
     * @param $trackId int Soundcloud track ID
     */
-    public function createMetadataFile($filename, $trackId)
+    public function createMetadataFile($filename, $trackId = 0)
     {
         try {
           $token = $this->getToken();
 
           if ($token && Application_Model_Preference::GetUploadToSoundcloudOption()) {
-            $track = array_shift( json_decode( $this->_soundcloud->get('tracks', array('ids' => $trackId)), true ) );
+            $track_data = $this->_soundcloud->get('tracks', array('ids' => $trackId));
+            $tracks = json_decode($track_data, true);
+            $track = array_shift($tracks);
             if($track['id'] == $trackId){
                 $mdFilename = "$filename.metadata";
                 $destination = $this->getTempDirectory();
