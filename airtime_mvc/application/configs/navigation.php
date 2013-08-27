@@ -20,7 +20,14 @@ $pages = array(
         'module'     => 'default',
         'controller' => 'Plupload',
         'action'     => 'index',
-        'resource'   =>    'plupload'
+        'resource'   => 'plupload',
+        'pages'      =>  array(
+                array(
+                    'label'      => 'Local File',
+                    'module'     => 'default',
+                    'controller' => 'Plupload'
+                )
+        )
     ),
     array(
         'label'      => _('Library'),
@@ -127,29 +134,29 @@ if(Application_Model_Preference::GetUploadToSoundcloudOption()){
     //Add the Soundcloud Import as sub-page of the Add Media nav item
     foreach ($pages as &$page) {
         if(is_array($page) && $page['resource'] == 'plupload'){
-            $soundcloudNav =  array(
-                'label'      => 'Add Media',
-                'module'     => 'default',
-                'controller' => 'Plupload',
-                'action'     => 'index',
-                'resource'   => 'plupload',
-                'pages'      =>  array(
-                        array(
-                            'label'      => 'Local File',
-                            'module'     => 'default',
-                            'controller' => 'Plupload'
-                        ),
-                        array(
+            $item = array(
                             'label'      => 'Soundcloud',
                             'module'     => 'default',
                             'controller' => 'soundcloud-import'
-                        )
-                )
-            );
-            $page = $soundcloudNav;
+                        );
+            array_push($page['pages'], $item);
         }
     }
 }
+
+
+    //TODO: only output if USIM Direct preference is set!
+    foreach ($pages as &$page) {
+        if(is_array($page) && $page['resource'] == 'plupload'){
+            $item = array(
+                            'label'      => 'USIM Direct',
+                            'module'     => 'default',
+                            'controller' => 'usim-direct-import'
+                        );
+            array_push($page['pages'], $item);
+        }
+    }
+
 
 
 // Create container from array

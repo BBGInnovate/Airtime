@@ -941,7 +941,7 @@ SQL;
 
     public static function copyFileToStor($p_targetDir, $fileName, $tempname)
     {
-        $audio_file = $p_targetDir . DIRECTORY_SEPARATOR . $tempname;
+        $audio_file = rtrim($p_targetDir, '/') . DIRECTORY_SEPARATOR . ltrim($tempname, '/');
         Logging::info('copyFileToStor: moving file '.$audio_file);
 
         $storDir = Application_Model_MusicDir::getStorDir();
