@@ -930,6 +930,28 @@ class Application_Model_Preference
         return self::getValue("soundcloud_downloadable");
     }
 
+
+    public static function SetEnableUSIMDirect($upload)
+    {
+        self::setValue("usimdirect_enable", $upload);
+    }
+
+    public static function GetEnableUSIMDirect()
+    {
+        return self::getValue("usimdirect_enable");
+    }
+    public static function SetUSIMDirectLanguage($upload)
+    {
+        self::setValue("usimdirect_language", $upload);
+    }
+
+    public static function GetUSIMDirectLanguage()
+    {
+        return self::getValue("usimdirect_language");
+    }
+
+
+
     public static function SetWeekStartDay($day)
     {
         self::setValue("week_start_day", $day);

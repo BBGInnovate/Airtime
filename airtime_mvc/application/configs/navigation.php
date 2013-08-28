@@ -145,7 +145,8 @@ if(Application_Model_Preference::GetUploadToSoundcloudOption()){
 }
 
 
-    //TODO: only output if USIM Direct preference is set!
+if(Application_Model_Preference::GetEnableUSIMDirect()){
+    //Add the USIM Direct sub-page link to nav
     foreach ($pages as &$page) {
         if(is_array($page) && $page['resource'] == 'plupload'){
             $item = array(
@@ -156,6 +157,7 @@ if(Application_Model_Preference::GetUploadToSoundcloudOption()){
             array_push($page['pages'], $item);
         }
     }
+}
 
 
 

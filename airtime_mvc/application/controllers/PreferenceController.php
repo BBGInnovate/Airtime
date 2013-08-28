@@ -71,6 +71,9 @@ class PreferenceController extends Zend_Controller_Action
                 Application_Model_Preference::SetSoundCloudTrackType($values["SoundCloudTrackType"]);
                 Application_Model_Preference::SetSoundCloudLicense($values["SoundCloudLicense"]);
 
+                Application_Model_Preference::SetEnableUSIMDirect($values["EnableUSIMDirect"]);
+                Application_Model_Preference::SetUSIMDirectLanguage($values["USIMDirectLanguage"]);
+
                 $this->view->statusMsg = "<div class='success'>". _("Preferences updated.")."</div>";
                 $this->view->form = $form;
                 $this->_helper->json->sendJson(array("valid"=>"true", "html"=>$this->view->render('preference/index.phtml')));

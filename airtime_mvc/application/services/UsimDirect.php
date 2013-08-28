@@ -8,10 +8,38 @@
 
 class Application_Service_UsimDirect
 {
+    private $_enabled;
+    private $_langcode;
+    private $_domain;
+    private $_language_domains = array(
+                "en" => "https://direct.voanews.com",
+                "fr" => "https://direct.lavoixdelamerique.com",
+                "ht" => "https://direct.voanouvel.com",
+                "ha" => "https://direct.voahausa.com",
+                "id" => "https://direct.voaindonesia.com",
+                "ku" => "https://direct.dengiamerika.com",
+                "pt" => "https://direct.voaportugues.com",
+                "es" => "https://direct.voanoticias.com",
+                "ru" => "https://direct.golos-ameriki.ru",
+                "sw" => "https://direct.voaswahili.com",
+                "tr" => "https://direct.amerikaninsesi.com",
+                "uk" => "https://direct.chastime.com",
+                "uz" => "https://direct.amerikaovozi.com"
+         );
+
 
     public function __construct()
     {
         $CC_CONFIG = Config::getConfig();
+        $this->_enabled = Application_Model_Preference::GetEnableUSIMDirect();
+        $this->_langcode = Application_Model_Preference::GetUSIMDirectLanguage();
+        //get the USIM Direct url based on language (default => 'en') (this shouldn't be necessary after changes to Direct API)
+        $this->_domain = "https://direct.voanews.com";
+        foreach ($this->_language_domains as $key => $value) {
+            if($this->_langcode == $key){
+                $this->_domain = $value;
+            }
+        }
     }
 
 
@@ -35,7 +63,7 @@ class Application_Service_UsimDirect
     {
         try{
             //TODO switch url based on user Language preferences
-            $url = "https://directbeta.voanews.com/api/REST/kaltura.json";
+            $url = $this->_domain . "/api/REST/kaltura.json";
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_URL, $url);

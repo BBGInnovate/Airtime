@@ -1,0 +1,33 @@
+<fieldset class="padded">
+    <dl class="zend_form">
+        <dd id="EnableUSIMDirect-element" class="block-display" style=" margin:6px 0 10px 0">
+            <label class="optional" for="EnableUSIMDirect">
+                <?php echo $this->element->getElement('EnableUSIMDirect') ?>
+                <strong><?php echo $this->element->getElement('EnableUSIMDirect')->getLabel() ?></strong>
+            </label>
+            <span class="info-text-small"><?php echo _("Allow import of audio from USIM Direct, a content delivery system which provides content from U.S. Interantional Media")?></span>
+            <?php if($this->element->getElement('EnableUSIMDirect')->hasErrors()) : ?>
+                <ul class='errors'>
+                    <?php foreach($this->element->getElement('EnableUSIMDirect')->getMessages() as $error): ?>
+                        <li><?php echo $error; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?> 
+        </dd>
+        <dt class="block-display">
+            <label class="optional" for="USIMDirectLanguage">
+                <strong><?php echo $this->element->getElement('USIMDirectLanguage')->getLabel() ?></strong>
+            </label>
+        </dt>
+        <dd id="USIMDirectLanguage-element" class="block-display">
+            <?php echo $this->element->getElement('USIMDirectLanguage') ?>
+            <?php if($this->element->getElement('USIMDirectLanguage')->hasErrors()) : ?>
+                <ul class='errors'>
+                    <?php foreach($this->element->getElement('USIMDirectLanguage')->getMessages() as $error): ?>
+                        <li><?php echo $error; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?> 
+        </dd>
+    </dl>
+</fieldset>

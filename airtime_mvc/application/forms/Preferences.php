@@ -22,6 +22,9 @@ class Application_Form_Preferences extends Zend_Form
 
         $soundcloud_pref = new Application_Form_SoundcloudPreferences();
         $this->addSubForm($soundcloud_pref, 'preferences_soundcloud');
+        
+        $usimdirect_pref = new Application_Form_UsimDirectPreferences();
+        $this->addSubForm($usimdirect_pref, 'preferences_usimdirect');
 
     }
 }
