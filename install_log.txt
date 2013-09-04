@@ -1,0 +1,555 @@
+----------------------------------------------------
+ 1. Install Packages
+----------------------------------------------------
+deb http://apt.sourcefabric.org/ precise main
+Hit http://us-east-1.ec2.archive.ubuntu.com precise Release.gpg
+Hit http://us-east-1.ec2.archive.ubuntu.com precise-updates Release.gpg
+Hit http://us-east-1.ec2.archive.ubuntu.com precise Release
+Hit http://us-east-1.ec2.archive.ubuntu.com precise-updates Release
+Hit http://us-east-1.ec2.archive.ubuntu.com precise/main Sources
+Hit http://us-east-1.ec2.archive.ubuntu.com precise/universe Sources
+Hit http://us-east-1.ec2.archive.ubuntu.com precise/main amd64 Packages
+Hit http://us-east-1.ec2.archive.ubuntu.com precise/universe amd64 Packages
+Hit http://us-east-1.ec2.archive.ubuntu.com precise/main i386 Packages
+Hit http://us-east-1.ec2.archive.ubuntu.com precise/universe i386 Packages
+Hit http://us-east-1.ec2.archive.ubuntu.com precise/main TranslationIndex
+Hit http://us-east-1.ec2.archive.ubuntu.com precise/universe TranslationIndex
+Hit http://us-east-1.ec2.archive.ubuntu.com precise-updates/main Sources
+Hit http://us-east-1.ec2.archive.ubuntu.com precise-updates/universe Sources
+Hit http://us-east-1.ec2.archive.ubuntu.com precise-updates/main amd64 Packages
+Hit http://us-east-1.ec2.archive.ubuntu.com precise-updates/universe amd64 Packages
+Hit http://us-east-1.ec2.archive.ubuntu.com precise-updates/main i386 Packages
+Hit http://us-east-1.ec2.archive.ubuntu.com precise-updates/universe i386 Packages
+Hit http://us-east-1.ec2.archive.ubuntu.com precise-updates/main TranslationIndex
+Hit http://us-east-1.ec2.archive.ubuntu.com precise-updates/universe TranslationIndex
+Hit http://us-east-1.ec2.archive.ubuntu.com precise/main Translation-en
+Hit http://security.ubuntu.com precise-security Release.gpg
+Hit http://us-east-1.ec2.archive.ubuntu.com precise/universe Translation-en
+Hit http://us-east-1.ec2.archive.ubuntu.com precise-updates/main Translation-en
+Hit http://us-east-1.ec2.archive.ubuntu.com precise-updates/universe Translation-en
+Get:1 http://apt.sourcefabric.org precise Release.gpg [490 B]
+Hit http://security.ubuntu.com precise-security Release
+Hit http://apt.sourcefabric.org precise Release
+Hit http://security.ubuntu.com precise-security/main Sources
+Hit http://apt.sourcefabric.org precise/main amd64 Packages
+Hit http://security.ubuntu.com precise-security/universe Sources
+Hit http://security.ubuntu.com precise-security/main amd64 Packages
+Hit http://apt.sourcefabric.org precise/main i386 Packages
+Hit http://security.ubuntu.com precise-security/universe amd64 Packages
+Ign http://apt.sourcefabric.org precise/main TranslationIndex
+Hit http://security.ubuntu.com precise-security/main i386 Packages
+Hit http://security.ubuntu.com precise-security/universe i386 Packages
+Hit http://security.ubuntu.com precise-security/main TranslationIndex
+Hit http://security.ubuntu.com precise-security/universe TranslationIndex
+Hit http://security.ubuntu.com precise-security/main Translation-en
+Hit http://security.ubuntu.com precise-security/universe Translation-en
+Ign http://apt.sourcefabric.org precise/main Translation-en_US
+Ign http://apt.sourcefabric.org precise/main Translation-en
+Fetched 490 B in 1s (300 B/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+flac is already the newest version.
+gzip is already the newest version.
+libesd0 is already the newest version.
+libportaudio2 is already the newest version.
+libsamplerate0 is already the newest version.
+lsof is already the newest version.
+patch is already the newest version.
+pwgen is already the newest version.
+rabbitmq-server is already the newest version.
+tar is already the newest version.
+vorbis-tools is already the newest version.
+vorbisgain is already the newest version.
+ecasound is already the newest version.
+libao-ocaml is already the newest version.
+libcamomile-ocaml-data is already the newest version.
+libfaad2 is already the newest version.
+libmad-ocaml is already the newest version.
+libsoundtouch-ocaml is already the newest version.
+libtaglib-ocaml is already the newest version.
+monit is already the newest version.
+mp3gain is already the newest version.
+mpg123 is already the newest version.
+multitail is already the newest version.
+odbc-postgresql is already the newest version.
+python-virtualenv is already the newest version.
+curl is already the newest version.
+libpulse0 is already the newest version.
+lsb-release is already the newest version.
+php-pear is already the newest version.
+php5-curl is already the newest version.
+php5-gd is already the newest version.
+php5-pgsql is already the newest version.
+postgresql is already the newest version.
+python is already the newest version.
+sudo is already the newest version.
+0 upgraded, 0 newly installed, 0 to remove and 78 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+icecast2 is already the newest version.
+lame is already the newest version.
+libmp3lame-dev is already the newest version.
+0 upgraded, 0 newly installed, 0 to remove and 78 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libzend-framework-php is already the newest version.
+0 upgraded, 0 newly installed, 0 to remove and 78 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+coreutils is already the newest version.
+0 upgraded, 0 newly installed, 0 to remove and 78 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libvo-aacenc0 is already the newest version.
+0 upgraded, 0 newly installed, 0 to remove and 78 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+sourcefabric-keyring is already the newest version.
+0 upgraded, 0 newly installed, 0 to remove and 78 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  libgsm1 libopencore-amrnb0 libopencore-amrwb0 libopus0 libsox-fmt-alsa
+  libsox-fmt-base libsox1b libwavpack1 sox
+Suggested packages:
+  opus-tools libsox-fmt-all festival mplayer
+The following NEW packages will be installed:
+  libgsm1 libopencore-amrnb0 libopencore-amrwb0 libopus0 libsox-fmt-alsa
+  libsox-fmt-base libsox1b libwavpack1 liquidsoap sox
+0 upgraded, 10 newly installed, 0 to remove and 78 not upgraded.
+Need to get 149 kB/2,875 kB of archives.
+After this operation, 8,570 kB of additional disk space will be used.
+Get:1 http://apt.sourcefabric.org/ precise/main libopus0 amd64 1.0.1~precise~sfo-1 [149 kB]
+Fetched 57.0 kB in 0s (140 kB/s)
+Selecting previously unselected package libwavpack1.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 66712 files and directories currently installed.)
+Unpacking libwavpack1 (from .../libwavpack1_4.60.1-2_amd64.deb) ...
+Selecting previously unselected package libgsm1.
+Unpacking libgsm1 (from .../libgsm1_1.0.13-3_amd64.deb) ...
+Selecting previously unselected package libopencore-amrnb0.
+Unpacking libopencore-amrnb0 (from .../libopencore-amrnb0_0.1.2-1_amd64.deb) ...
+Selecting previously unselected package libopencore-amrwb0.
+Unpacking libopencore-amrwb0 (from .../libopencore-amrwb0_0.1.2-1_amd64.deb) ...
+Selecting previously unselected package libopus0.
+Unpacking libopus0 (from .../libopus0_1.0.1~precise~sfo-1_amd64.deb) ...
+Selecting previously unselected package libsox1b.
+Unpacking libsox1b (from .../libsox1b_14.3.2-3_amd64.deb) ...
+Selecting previously unselected package libsox-fmt-alsa.
+Unpacking libsox-fmt-alsa (from .../libsox-fmt-alsa_14.3.2-3_amd64.deb) ...
+Selecting previously unselected package libsox-fmt-base.
+Unpacking libsox-fmt-base (from .../libsox-fmt-base_14.3.2-3_amd64.deb) ...
+Selecting previously unselected package sox.
+Unpacking sox (from .../sox_14.3.2-3_amd64.deb) ...
+Selecting previously unselected package liquidsoap.
+Unpacking liquidsoap (from .../liquidsoap_1.1.1~precise~sfo-1_amd64.deb) ...
+Processing triggers for man-db ...
+Processing triggers for ureadahead ...
+Setting up libwavpack1 (4.60.1-2) ...
+Setting up libgsm1 (1.0.13-3) ...
+Setting up libopencore-amrnb0 (0.1.2-1) ...
+Setting up libopencore-amrwb0 (0.1.2-1) ...
+Setting up libopus0 (1.0.1~precise~sfo-1) ...
+Setting up libsox1b (14.3.2-3) ...
+Setting up libsox-fmt-alsa (14.3.2-3) ...
+Setting up libsox-fmt-base (14.3.2-3) ...
+Setting up sox (14.3.2-3) ...
+Setting up liquidsoap (1.1.1~precise~sfo-1) ...
+Adding group `liquidsoap' (GID 117) ...
+Done.
+Adding system user `liquidsoap' (UID 110) ...
+Adding new user `liquidsoap' (UID 110) with group `liquidsoap' ...
+Creating home directory `/usr/share/liquidsoap' ...
+Starting liquidsoap channels: no script found in /etc/liquidsoap
+Processing triggers for libc-bin ...
+ldconfig deferred processing now taking place
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  libavcodec53 libavformat53 libavutil51 liborc-0.4-0 libschroedinger-1.0-0
+  libva1 libvpx1
+The following NEW packages will be installed:
+  libavcodec53 libavformat53 libavutil51 liborc-0.4-0 libschroedinger-1.0-0
+  libva1 libvpx1 silan
+0 upgraded, 8 newly installed, 0 to remove and 78 not upgraded.
+Need to get 4,266 kB of archives.
+After this operation, 10.7 MB of additional disk space will be used.
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise-updates/main libavutil51 amd64 4:0.8.6-0ubuntu0.12.04.1 [63.1 kB]
+Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise/main liborc-0.4-0 amd64 1:0.4.16-1ubuntu2 [176 kB]
+Get:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise/main libschroedinger-1.0-0 amd64 1.0.11-1 [287 kB]
+Get:4 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise/main libva1 amd64 1.0.15-4 [38.7 kB]
+Get:5 http://apt.sourcefabric.org/ precise/main silan amd64 0.3.1~precise~sfo-1 [15.2 kB]
+Get:6 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise/main libvpx1 amd64 1.0.0-1 [269 kB]
+Get:7 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise-updates/main libavcodec53 amd64 4:0.8.6-0ubuntu0.12.04.1 [2,921 kB]
+Get:8 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise-updates/main libavformat53 amd64 4:0.8.6-0ubuntu0.12.04.1 [495 kB]
+Fetched 4,266 kB in 0s (6,344 kB/s)
+Selecting previously unselected package libavutil51.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 67099 files and directories currently installed.)
+Unpacking libavutil51 (from .../libavutil51_4%3a0.8.6-0ubuntu0.12.04.1_amd64.deb) ...
+Selecting previously unselected package liborc-0.4-0.
+Unpacking liborc-0.4-0 (from .../liborc-0.4-0_1%3a0.4.16-1ubuntu2_amd64.deb) ...
+Selecting previously unselected package libschroedinger-1.0-0.
+Unpacking libschroedinger-1.0-0 (from .../libschroedinger-1.0-0_1.0.11-1_amd64.deb) ...
+Selecting previously unselected package libva1.
+Unpacking libva1 (from .../libva1_1.0.15-4_amd64.deb) ...
+Selecting previously unselected package libvpx1.
+Unpacking libvpx1 (from .../libvpx1_1.0.0-1_amd64.deb) ...
+Selecting previously unselected package libavcodec53.
+Unpacking libavcodec53 (from .../libavcodec53_4%3a0.8.6-0ubuntu0.12.04.1_amd64.deb) ...
+Selecting previously unselected package libavformat53.
+Unpacking libavformat53 (from .../libavformat53_4%3a0.8.6-0ubuntu0.12.04.1_amd64.deb) ...
+Selecting previously unselected package silan.
+Unpacking silan (from .../silan_0.3.1~precise~sfo-1_amd64.deb) ...
+Processing triggers for man-db ...
+Setting up libavutil51 (4:0.8.6-0ubuntu0.12.04.1) ...
+Setting up liborc-0.4-0 (1:0.4.16-1ubuntu2) ...
+Setting up libschroedinger-1.0-0 (1.0.11-1) ...
+Setting up libva1 (1.0.15-4) ...
+Setting up libvpx1 (1.0.0-1) ...
+Setting up libavcodec53 (4:0.8.6-0ubuntu0.12.04.1) ...
+Setting up libavformat53 (4:0.8.6-0ubuntu0.12.04.1) ...
+Setting up silan (0.3.1~precise~sfo-1) ...
+Processing triggers for libc-bin ...
+ldconfig deferred processing now taking place
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libopus0 is already the newest version.
+libopus0 set to manually installed.
+0 upgraded, 0 newly installed, 0 to remove and 78 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common libapr1
+  libaprutil1 libaprutil1-dbd-sqlite3 libaprutil1-ldap libcap2
+Suggested packages:
+  apache2-doc apache2-suexec apache2-suexec-custom
+The following NEW packages will be installed:
+  apache2 apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common
+  libapache2-mod-php5 libapr1 libaprutil1 libaprutil1-dbd-sqlite3
+  libaprutil1-ldap libcap2
+0 upgraded, 11 newly installed, 0 to remove and 78 not upgraded.
+Need to get 4,991 kB of archives.
+After this operation, 14.4 MB of additional disk space will be used.
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise/main libcap2 amd64 1:2.22-1ubuntu3 [12.0 kB]
+Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise/main libapr1 amd64 1.4.6-1 [89.6 kB]
+Get:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise/main libaprutil1 amd64 1.3.12+dfsg-3 [74.6 kB]
+Get:4 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise/main libaprutil1-dbd-sqlite3 amd64 1.3.12+dfsg-3 [10.4 kB]
+Get:5 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise/main libaprutil1-ldap amd64 1.3.12+dfsg-3 [8,044 B]
+Get:6 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise-updates/main apache2.2-bin amd64 2.2.22-1ubuntu1.4 [1,340 kB]
+Get:7 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise-updates/main apache2-utils amd64 2.2.22-1ubuntu1.4 [90.1 kB]
+Get:8 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise-updates/main apache2.2-common amd64 2.2.22-1ubuntu1.4 [226 kB]
+Get:9 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise-updates/main apache2-mpm-prefork amd64 2.2.22-1ubuntu1.4 [2,398 B]
+Get:10 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise-updates/main apache2 amd64 2.2.22-1ubuntu1.4 [1,492 B]
+Get:11 http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ precise-updates/main libapache2-mod-php5 amd64 5.3.10-1ubuntu3.7 [3,136 kB]
+Fetched 4,991 kB in 0s (7,014 kB/s)
+Selecting previously unselected package libcap2.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 67160 files and directories currently installed.)
+Unpacking libcap2 (from .../libcap2_1%3a2.22-1ubuntu3_amd64.deb) ...
+Selecting previously unselected package libapr1.
+Unpacking libapr1 (from .../libapr1_1.4.6-1_amd64.deb) ...
+Selecting previously unselected package libaprutil1.
+Unpacking libaprutil1 (from .../libaprutil1_1.3.12+dfsg-3_amd64.deb) ...
+Selecting previously unselected package libaprutil1-dbd-sqlite3.
+Unpacking libaprutil1-dbd-sqlite3 (from .../libaprutil1-dbd-sqlite3_1.3.12+dfsg-3_amd64.deb) ...
+Selecting previously unselected package libaprutil1-ldap.
+Unpacking libaprutil1-ldap (from .../libaprutil1-ldap_1.3.12+dfsg-3_amd64.deb) ...
+Selecting previously unselected package apache2.2-bin.
+Unpacking apache2.2-bin (from .../apache2.2-bin_2.2.22-1ubuntu1.4_amd64.deb) ...
+Selecting previously unselected package apache2-utils.
+Unpacking apache2-utils (from .../apache2-utils_2.2.22-1ubuntu1.4_amd64.deb) ...
+Selecting previously unselected package apache2.2-common.
+Unpacking apache2.2-common (from .../apache2.2-common_2.2.22-1ubuntu1.4_amd64.deb) ...
+Selecting previously unselected package apache2-mpm-prefork.
+Unpacking apache2-mpm-prefork (from .../apache2-mpm-prefork_2.2.22-1ubuntu1.4_amd64.deb) ...
+Selecting previously unselected package apache2.
+Unpacking apache2 (from .../apache2_2.2.22-1ubuntu1.4_amd64.deb) ...
+Selecting previously unselected package libapache2-mod-php5.
+Unpacking libapache2-mod-php5 (from .../libapache2-mod-php5_5.3.10-1ubuntu3.7_amd64.deb) ...
+Processing triggers for man-db ...
+Processing triggers for ureadahead ...
+Processing triggers for ufw ...
+Setting up libcap2 (1:2.22-1ubuntu3) ...
+Setting up libapr1 (1.4.6-1) ...
+Setting up libaprutil1 (1.3.12+dfsg-3) ...
+Setting up libaprutil1-dbd-sqlite3 (1.3.12+dfsg-3) ...
+Setting up libaprutil1-ldap (1.3.12+dfsg-3) ...
+Setting up apache2.2-bin (2.2.22-1ubuntu1.4) ...
+Setting up apache2-utils (2.2.22-1ubuntu1.4) ...
+Setting up apache2.2-common (2.2.22-1ubuntu1.4) ...
+Enabling site default.
+Enabling module alias.
+Enabling module autoindex.
+Enabling module dir.
+Enabling module env.
+Enabling module mime.
+Enabling module negotiation.
+Enabling module setenvif.
+Enabling module status.
+Enabling module auth_basic.
+Enabling module deflate.
+Enabling module authz_default.
+Enabling module authz_user.
+Enabling module authz_groupfile.
+Enabling module authn_file.
+Enabling module authz_host.
+Enabling module reqtimeout.
+Setting up apache2-mpm-prefork (2.2.22-1ubuntu1.4) ...
+ * Starting web server apache2       [109G [103G[ OK ]
+Setting up apache2 (2.2.22-1ubuntu1.4) ...
+Setting up libapache2-mod-php5 (5.3.10-1ubuntu3.7) ...
+
+Creating config file /etc/php5/apache2/php.ini with new version
+ * Restarting web server apache2       [109G  ... waiting [103G[ OK ]
+Processing triggers for libc-bin ...
+ldconfig deferred processing now taking place
+----------------------------------------------------
+2. Apache Config File
+----------------------------------------------------
+Site default disabled.
+To activate the new configuration, you need to run:
+  service apache2 reload
+Enabling site airtime.
+To activate the new configuration, you need to run:
+  service apache2 reload
+Enabling module rewrite.
+Module php5 already enabled
+To activate the new configuration, you need to run:
+  service apache2 restart
+ * Restarting web server apache2
+Warning: DocumentRoot [/usr/share/airtime/public] does not exist
+ ... waiting Warning: DocumentRoot [/usr/share/airtime/public] does not exist
+   ...done.
+----------------------------------------------------
+3. Enable Icecast
+----------------------------------------------------
+Starting icecast2: 
+----------------------------------------------------
+4. Enable Monit
+----------------------------------------------------
+----------------------------------------------------
+5. Run Airtime Install
+----------------------------------------------------
+* Making sure /etc/default/locale is set properly
+LANG="en_US.UTF-8"
+ * None found.
+* Temporarily stopping any previous running services
+
+******************************** Install Begin *********************************
+Ensuring python-virtualenv version > 1.4.8...Success!
+
+*** Creating Virtualenv for Airtime ***
+Already using interpreter /usr/bin/python
+The --no-site-packages flag is deprecated; it is now the default behavior.
+New python executable in /usr/lib/airtime/airtime_virtualenv/bin/python
+Installing distribute.............................................................................................................................................................................................done.
+Installing pip...............done.
+
+*** Installing Python Libraries ***
+Unpacking /home/ubuntu/Airtime/python_apps/python-virtualenv/airtime_virtual_env.pybundle
+Downloading/unpacking pytz
+  Running setup.py egg_info for package pytz
+    
+    warning: no files found matching '*.pot' under directory 'pytz'
+    warning: no previously-included files found matching 'test_zdump.py'
+Downloading/unpacking kombu
+  Running setup.py egg_info for package kombu
+    
+Requirement already satisfied (use --upgrade to upgrade): wsgiref in /usr/lib/python2.7
+Downloading/unpacking configobj
+  Running setup.py egg_info for package configobj
+    
+Downloading/unpacking mutagen
+  Running setup.py egg_info for package mutagen
+    
+Downloading/unpacking anyjson
+  Running setup.py egg_info for package anyjson
+    
+Requirement already satisfied (use --upgrade to upgrade): argparse in /usr/lib/python2.7
+Downloading/unpacking docopt
+  Running setup.py egg_info for package docopt
+    
+Downloading/unpacking PyDispatcher
+  Running setup.py egg_info for package PyDispatcher
+    
+    warning: no previously-included files matching '*.bat' found anywhere in distribution
+    warning: no previously-included files matching './CVS' found anywhere in distribution
+    warning: no previously-included files matching '.cvsignore' found anywhere in distribution
+Downloading/unpacking poster
+  Running setup.py egg_info for package poster
+    
+Downloading/unpacking pyinotify
+  Running setup.py egg_info for package pyinotify
+    
+Downloading/unpacking amqplib
+  Running setup.py egg_info for package amqplib
+    
+Installing collected packages: pytz, kombu, configobj, mutagen, anyjson, docopt, PyDispatcher, poster, pyinotify, amqplib
+  Running setup.py install for pytz
+    
+    warning: no files found matching '*.pot' under directory 'pytz'
+    warning: no previously-included files found matching 'test_zdump.py'
+  Running setup.py install for kombu
+    
+  Running setup.py install for configobj
+    
+  Running setup.py install for mutagen
+    changing mode of build/scripts-2.7/mid3iconv from 644 to 755
+    changing mode of build/scripts-2.7/mid3v2 from 644 to 755
+    changing mode of build/scripts-2.7/mutagen-pony from 644 to 755
+    changing mode of build/scripts-2.7/mutagen-inspect from 644 to 755
+    changing mode of build/scripts-2.7/moggsplit from 644 to 755
+    
+    changing mode of /usr/lib/airtime/airtime_virtualenv/bin/mid3iconv to 755
+    changing mode of /usr/lib/airtime/airtime_virtualenv/bin/mid3v2 to 755
+    changing mode of /usr/lib/airtime/airtime_virtualenv/bin/mutagen-pony to 755
+    changing mode of /usr/lib/airtime/airtime_virtualenv/bin/mutagen-inspect to 755
+    changing mode of /usr/lib/airtime/airtime_virtualenv/bin/moggsplit to 755
+  Running setup.py install for anyjson
+    
+  Running setup.py install for docopt
+    
+  Running setup.py install for PyDispatcher
+    
+    warning: no previously-included files matching '*.bat' found anywhere in distribution
+    warning: no previously-included files matching './CVS' found anywhere in distribution
+    warning: no previously-included files matching '.cvsignore' found anywhere in distribution
+  Running setup.py install for poster
+    
+  Running setup.py install for pyinotify
+    
+  Running setup.py install for amqplib
+    
+Successfully installed pytz kombu configobj mutagen anyjson docopt PyDispatcher poster pyinotify amqplib
+Cleaning up...
+* Checking for user pypo
+ * Creating user pypo
+* Creating INI files
+* Initializing INI files
+* Airtime Version: 2.4.0
+* Storage directory setup
+* Directory /srv/airtime/stor created
+* Giving Apache permission to access /srv/airtime/stor
+* Directory /srv/airtime/stor/organize created
+* Giving Apache permission to access /srv/airtime/stor/organize
+* Checking database for correct encoding
+
+* Database Installation
+ * Creating Airtime database user
+  * Database user 'airtime' created.
+ * Creating Airtime database
+  * Database 'airtime' created.
+  * Postgres scripting language already installed
+ * Creating database tables
+ * Setting Airtime version
+ * Inserting stor directory location /srv/airtime/stor/ into music_dirs table
+Creating vhost "/airtime" ...
+...done.
+Creating user "airtime" ...
+...done.
+Setting permissions for user "airtime" in vhost "/airtime" ...
+...done.
+* Creating /etc/airtime
+* Creating /etc/monit/conf.d/monit-airtime-generic.cfg
+* Creating /etc/cron.d/airtime-crons
+* Creating /usr/lib/airtime
+* Creating symbolic links in /usr/bin
+* Creating /var/log/airtime
+* Creating /usr/share/airtime
+* Creating /var/log/airtime
+* Creating /var/tmp/airtime
+Generating locales
+Generating locales...
+  cs_CZ.UTF-8... done
+Generation complete.
+Generating locales...
+  de_AT.UTF-8... done
+Generation complete.
+Generating locales...
+  de_DE.UTF-8... done
+Generation complete.
+Generating locales...
+  el_GR.UTF-8... done
+Generation complete.
+Generating locales...
+  en_CA.UTF-8... done
+Generation complete.
+Generating locales...
+  en_GB.UTF-8... done
+Generation complete.
+Generating locales...
+  en_US.UTF-8... up-to-date
+Generation complete.
+Generating locales...
+  es_ES.UTF-8... done
+Generation complete.
+Generating locales...
+  fr_FR.UTF-8... done
+Generation complete.
+Generating locales...
+  hu_HU.UTF-8... done
+Generation complete.
+Generating locales...
+  it_IT.UTF-8... done
+Generation complete.
+Generating locales...
+  ko_KR.UTF-8... done
+Generation complete.
+Generating locales...
+  pl_PL.UTF-8... done
+Generation complete.
+Generating locales...
+  pt_BR.UTF-8... done
+Generation complete.
+Generating locales...
+  ru_RU.UTF-8... done
+Generation complete.
+Generating locales...
+  zh_CN.UTF-8... done
+Generation complete.
+Starting Airtime Media Monitor: Done.
+* Waiting for media-monitor processes to start...
+* Detecting OS: ...  Found Ubuntu 12.04.2 LTS (precise) on amd64 architecture
+ * Creating symlink to Liquidsoap binary
+* Clearing previous pypo cache
+* Waiting for pypo processes to start...
+ * Stopping daemon monitor monit
+   ...done.
+ * Starting daemon monitor monit
+   ...done.
+
+*** Verifying your system environment, running airtime-check-system ***
+AIRTIME_STATUS_URL             = http://localhost:80/api/status/format/json/api_key/%%api_key%%
+AIRTIME_SERVER_RESPONDING      = OK
+KERNEL_VERSION                 = 3.2.0-40-virtual
+MACHINE_ARCHITECTURE           = x86_64
+TOTAL_MEMORY_MBYTES            = 1692576
+TOTAL_SWAP_MBYTES              = 917500
+AIRTIME_VERSION                = 2.4.0
+OS                             = Ubuntu 12.04.2 LTS x86_64
+CPU                            = Intel(R) Xeon(R) CPU           E5507  @ 2.27GHz
+WEB_SERVER                     = Apache/2.2.22 (Ubuntu)
+PLAYOUT_ENGINE_PROCESS_ID      = 18150
+PLAYOUT_ENGINE_RUNNING_SECONDS = 12
+PLAYOUT_ENGINE_MEM_PERC        = 0.9%
+PLAYOUT_ENGINE_CPU_PERC        = 2.9%
+LIQUIDSOAP_PROCESS_ID          = 18110
+LIQUIDSOAP_RUNNING_SECONDS     = 12
+LIQUIDSOAP_MEM_PERC            = 1.1%
+LIQUIDSOAP_CPU_PERC            = 0.0%
+MEDIA_MONITOR_PROCESS_ID       = 18023
+MEDIA_MONITOR_RUNNING_SECONDS  = 16
+MEDIA_MONITOR_MEM_PERC         = 0.8%
+MEDIA_MONITOR_CPU_PERC         = 0.0%
+-- Your installation of Airtime looks OK!
+
+******************************* Install Complete *******************************
