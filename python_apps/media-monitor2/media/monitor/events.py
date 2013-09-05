@@ -209,6 +209,8 @@ class NewFile(BaseEvent, HasMetaData):
                     req_dict['MDATA_KEY_SOURCE'] = md_item[1]
                 elif md_item[0] == 'copyright':
                     req_dict['MDATA_KEY_COPYRIGHT'] = md_item[1]
+                elif md_item[0] == 'language':
+                    req_dict['MDATA_KEY_LANGUAGE'] = md_item[1]
             os.unlink(import_store_path + metadata_text_file)
         return [req_dict]
 

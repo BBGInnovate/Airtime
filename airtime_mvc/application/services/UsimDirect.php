@@ -12,19 +12,19 @@ class Application_Service_UsimDirect
     private $_langcode;
     private $_domain;
     private $_language_domains = array(
-                "en" => "https://direct.voanews.com",
-                "fr" => "https://direct.lavoixdelamerique.com",
-                "ht" => "https://direct.voanouvel.com",
-                "ha" => "https://direct.voahausa.com",
-                "id" => "https://direct.voaindonesia.com",
-                "ku" => "https://direct.dengiamerika.com",
-                "pt" => "https://direct.voaportugues.com",
-                "es" => "https://direct.voanoticias.com",
-                "ru" => "https://direct.golos-ameriki.ru",
-                "sw" => "https://direct.voaswahili.com",
-                "tr" => "https://direct.amerikaninsesi.com",
-                "uk" => "https://direct.chastime.com",
-                "uz" => "https://direct.amerikaovozi.com"
+                "en" => "https://directbeta.voanews.com",
+                "fr" => "https://directbeta.lavoixdelamerique.com",
+                "ht" => "https://directbeta.voanouvel.com",
+                "ha" => "https://directbeta.voahausa.com",
+                "id" => "https://directbeta.voaindonesia.com",
+                "ku" => "https://directbeta.dengiamerika.com",
+                "pt" => "https://directbeta.voaportugues.com",
+                "es" => "https://directbeta.voanoticias.com",
+                "ru" => "https://directbeta.golos-ameriki.ru",
+                "sw" => "https://directbeta.voaswahili.com",
+                "tr" => "https://directbeta.amerikaninsesi.com",
+                "uk" => "https://directbeta.chastime.com",
+                "uz" => "https://directbeta.amerikaovozi.com"
          );
 
 
@@ -89,7 +89,7 @@ class Application_Service_UsimDirect
         //example https://directbeta.voanews.com/api/REST/node/44478.json
         try {
             
-            $url = "https://directbeta.voanews.com/api/REST/node/" . trim($trackId) .".json";
+            $url = $this->_domain . "/api/REST/node/" . trim($trackId) .".json";
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -196,8 +196,8 @@ class Application_Service_UsimDirect
                 if(!empty($track->field_credit->und[0]->value)){
                     $md['artist_name'] = $track->field_credit->und[0]->value;
                 }
-                if(!empty($track->$language)){
-                    $md['language'] = $track->$language;
+                if(!empty($track->language)){
+                    $md['language'] = $track->language;
                 }
                 $md['album_title'] = 'USIM Direct';
 
