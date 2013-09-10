@@ -49,12 +49,11 @@
 	  <button type="button" class="close" data-dismiss="alert">&times;</button>
 	</div>
 
-			<div class="tab-content">
+		<div class="tab-content">
 
 		    <div id="profile-tab" class="tab-pane active">
 				<!-- soundcloud profile track list -->
 		        <div class="dataTables_wrapper">
-
 			        <div class="dataTables_scrolling scprofile" style="max-height: 400px;">
 					   <table id="sclibrary_display" cellpadding="0" cellspacing="0" class="datatable dataTable" aria-describedby="sclibrary_display_info">
 							<thead>
@@ -98,74 +97,132 @@
 
 				</div><!-- ./scprofile -->
 			</div><!-- /.dataTables_wrapper -->
-
-
 		</div><!-- /#profile-tab -->
 
-							<!-- groups tab panes -->
 
-							      <?php foreach ($this->groups as $group): ?>
-							      		<?php if($group['kind'] == 'group' && $group['creator']['id'] == $this->user['id'] ): ?>
-											<div id="groups-<?php echo $group['id']; ?>" class="tab-pane">
-												<ul class="breadcrumb">
-												  <li>Groups <span class="divider">/</span></li>
-												  <li class="active"><?php echo $group['name'] . ': ' . $group['short_description']; ?>
-													<span class="label">Approved/Downloadable Tracks</span>
-												  </li>
-												</ul>
 
-									        <div class="dataTables_wrapper">
 
-										        <div class="dataTables_scrolling scgroup" style="max-height: 400px;">
-												   <table id="sclibrary_display" cellpadding="0" cellspacing="0" class="datatable dataTable" aria-describedby="sclibrary_display_info">
-														<thead>
-												         <tr role="row">
-												            <th class="sclibrary_checkbox ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 25px;" aria-label="">
-												               <div class="DataTables_sort_wrapper"><span class="DataTables_sort_icon"></span></div>
-												            </th>
-												            <th class="sclibrary_title ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 170px;" aria-label="Title: activate to sort column ascending">
-												               <div class="DataTables_sort_wrapper">Title<span class="DataTables_sort_icon css_right ui-icon ui-icon-triangle-1-n"></span></div>
-												            </th>
-												            <th class="sclibrary_creator ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 160px;" aria-label="Username: activate to sort column ascending">
-												               <div class="DataTables_sort_wrapper">Username<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
-												            </th>
-												            <th class="sclibrary_length ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Length: activate to sort column ascending">
-												               <div class="DataTables_sort_wrapper">Length<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
-												            </th>
-												            <th class="sclibrary_upload_time ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 125px;" aria-label="Created: activate to sort column ascending">
-												               <div class="DataTables_sort_wrapper">Created<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
-												            </th>
-												         </tr>
-												      </thead>
+		<!-- groups tab panes -->
 
-												      <tbody role="alert" aria-live="polite" aria-relevant="all">
+		<?php foreach ($this->groups as $group): ?>
+			<?php if($group['kind'] == 'group' && $group['creator']['id'] == $this->user['id'] ): ?>
+				<div id="group-<?php echo $group['id']; ?>" class="tab-pane">
+					
+					<ul class="breadcrumb">
+						<li>Group <span class="divider">/</span></li>
+						<li class="active"><?php echo $group['name'] . ': ' . $group['short_description']; ?>
+							<span class="label">Approved/Downloadable Tracks</span>
+						</li>
+					</ul>
 
-													<?php foreach ($group['tracks'] as $track): ?> 
-													  <?php if($track['streamable']): ?>
-												         <tr class="<?= $index % 2 ? 'odd' : 'even' ?> sc-audio ui-draggable" id="sc_<?= $track['id'] ?>">
-												            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?= $track['id'] ?>" /></td>
-												            <td class="sclibrary_title sorting_1"><a target="soundcloud" href="<?= $track['permalink_url'] ?><?= $track['sharing']=='public'?'':'/'.$track['secret_token'] ?>" class="text-link soundcloud-title"><?= $track['title'] ?></a></td>
-												            <td class="sclibrary_creator"><?= $track['user']['username'] ?></td>
-												            <td class="sclibrary_length">
-																<? $sec = $track['duration'] / 1000 ?>
-															    <? printf('%d', $sec / 60 % 60) ?>:<? printf('%d', $sec % 60) ?>
-												            </td>
-												            <td class="sclibrary_upload_time"><?= $track['created_at'] ?></td>
-												         </tr>
-												       <?php endif; ?>
-													  <?php endforeach; ?>
+					<div class="dataTables_wrapper">
+						<div class="dataTables_scrolling scgroup" style="max-height: 400px;">
+						   <table id="sclibrary_display" cellpadding="0" cellspacing="0" class="datatable dataTable" aria-describedby="sclibrary_display_info">
+								<thead>
+						         <tr role="row">
+						            <th class="sclibrary_checkbox ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 25px;" aria-label="">
+						               <div class="DataTables_sort_wrapper"><span class="DataTables_sort_icon"></span></div>
+						            </th>
+						            <th class="sclibrary_title ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 170px;" aria-label="Title: activate to sort column ascending">
+						               <div class="DataTables_sort_wrapper">Title<span class="DataTables_sort_icon css_right ui-icon ui-icon-triangle-1-n"></span></div>
+						            </th>
+						            <th class="sclibrary_creator ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 160px;" aria-label="Username: activate to sort column ascending">
+						               <div class="DataTables_sort_wrapper">Username<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
+						            </th>
+						            <th class="sclibrary_length ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Length: activate to sort column ascending">
+						               <div class="DataTables_sort_wrapper">Length<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
+						            </th>
+						            <th class="sclibrary_upload_time ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 125px;" aria-label="Created: activate to sort column ascending">
+						               <div class="DataTables_sort_wrapper">Created<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
+						            </th>
+						         </tr>
+						      </thead>
 
-												</div>
+						      <tbody role="alert" aria-live="polite" aria-relevant="all">
+								<?php foreach ($group['tracks'] as $track): ?> 
+								  <?php if($track['streamable']): ?>
+							         <tr class="<?= $index % 2 ? 'odd' : 'even' ?> sc-audio ui-draggable" id="sc_<?= $track['id'] ?>">
+							            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?= $track['id'] ?>" /></td>
+							            <td class="sclibrary_title sorting_1"><a target="soundcloud" href="<?= $track['permalink_url'] ?><?= $track['sharing']=='public'?'':'/'.$track['secret_token'] ?>" class="text-link soundcloud-title"><?= $track['title'] ?></a></td>
+							            <td class="sclibrary_creator"><?= $track['user']['username'] ?></td>
+							            <td class="sclibrary_length">
+											<? $sec = $track['duration'] / 1000 ?>
+										    <? printf('%d', $sec / 60 % 60) ?>:<? printf('%d', $sec % 60) ?>
+							            </td>
+							            <td class="sclibrary_upload_time"><?= $track['created_at'] ?></td>
+							         </tr>
+							       <?php endif; ?>
+								  <?php endforeach; ?>
 
-												</div> <!-- /#groups-<?php echo $this->group['id']; ?> -->
-												</tbody>
-											</table>
+								</tbody>
+							</table>
+						</div><!-- /.dataTables_scrolling -->
+					</div><!-- ./dataTables_wrapper -->
+				</div><!-- /#group<?php echo $group['id']; ?> -->
 
-										</div><!-- ./scgroup -->
-									</div><!-- /.dataTables_wrapper -->
+			<?php endif; ?>
+		<?php endforeach; ?>
 
-						      	<?php endif; ?>
-						  <?php endforeach; ?>
+
+
+		<!-- Sets tab panes -->
+
+		<?php foreach ($this->playlists as $playlist): ?>
+		    <?php if($playlist['kind'] == 'playlist' && $playlist['user']['id'] == $this->user['id'] ): ?>
+				<div id="set-<?php echo $playlist['id']; ?>" class="tab-pane">
+							
+					<ul class="breadcrumb">
+					  <li>Set <span class="divider">/</span></li>
+					  <li class="active"><?php echo $playlist['title'] . ': ' . $playlist['description']; ?>
+					  </li>
+					</ul>
+
+			        <div class="dataTables_wrapper">
+				        <div class="dataTables_scrolling scset" style="max-height: 400px;">
+						   <table id="sclibrary_display" cellpadding="0" cellspacing="0" class="datatable dataTable" aria-describedby="sclibrary_display_info">
+								<thead>
+						         <tr role="row">
+						            <th class="sclibrary_checkbox ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 25px;" aria-label="">
+						               <div class="DataTables_sort_wrapper"><span class="DataTables_sort_icon"></span></div>
+						            </th>
+						            <th class="sclibrary_title ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 170px;" aria-label="Title: activate to sort column ascending">
+						               <div class="DataTables_sort_wrapper">Title<span class="DataTables_sort_icon css_right ui-icon ui-icon-triangle-1-n"></span></div>
+						            </th>
+						            <th class="sclibrary_creator ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 160px;" aria-label="Username: activate to sort column ascending">
+						               <div class="DataTables_sort_wrapper">Username<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
+						            </th>
+						            <th class="sclibrary_length ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Length: activate to sort column ascending">
+						               <div class="DataTables_sort_wrapper">Length<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
+						            </th>
+						            <th class="sclibrary_upload_time ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 125px;" aria-label="Created: activate to sort column ascending">
+						               <div class="DataTables_sort_wrapper">Created<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
+						            </th>
+						         </tr>
+						      </thead>
+
+						      <tbody role="alert" aria-live="polite" aria-relevant="all">
+								<?php foreach ($playlist['tracks'] as $track): ?> 
+								  <?php if($track['streamable']): ?>
+							         <tr class="<?= $index % 2 ? 'odd' : 'even' ?> sc-audio ui-draggable" id="sc_<?= $track['id'] ?>">
+							            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?= $track['id'] ?>" /></td>
+							            <td class="sclibrary_title sorting_1"><a target="soundcloud" href="<?= $track['permalink_url'] ?><?= $track['sharing']=='public'?'':'/'.$track['secret_token'] ?>" class="text-link soundcloud-title"><?= $track['title'] ?></a></td>
+							            <td class="sclibrary_creator"><?= $track['user']['username'] ?></td>
+							            <td class="sclibrary_length">
+											<? $sec = $track['duration'] / 1000 ?>
+										    <? printf('%d', $sec / 60 % 60) ?>:<? printf('%d', $sec % 60) ?>
+							            </td>
+							            <td class="sclibrary_upload_time"><?= $track['created_at'] ?></td>
+							         </tr>
+							       <?php endif; ?>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+
+					</div><!-- ./scset -->
+				</div><!-- ./dataTables_wrapper -->
+			</div><!-- /#set-<?php echo $this->playlist['id']; ?> -->
+	      	<?php endif; ?>
+	  <?php endforeach; ?>
 
 
 

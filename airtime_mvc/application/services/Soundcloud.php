@@ -147,7 +147,6 @@ class Application_Service_Soundcloud
     */
     public function getTracks($options = null)
     {
-        //TODO create a similar "getSets" function
         try{
             if ($this->getToken()) {
 
@@ -170,6 +169,42 @@ class Application_Service_Soundcloud
             } else {
 
                 throw new Exception("Unable to retrieve tracks from SoundCloud. Please Check your SoundCloud preferences.");
+            }
+
+        } catch(Services_Soundcloud_Invalid_Http_Response_Code_Exception $e){
+
+            return array("error"=>$e->getMessage());
+        }
+    }
+
+    /**
+    * Get sets (playlists) from SoundCloud.
+    * @param $options Soundcloud API "get" options
+    * @return request
+    *
+    */
+    public function getSets($options = null)
+    {
+        try{
+            if ($this->getToken()) {
+
+                if(!$options){
+                    $options = array();
+                }
+                if(empty($options['user_id'])){
+                    $user = $this->getUser();
+                    $options['user_id'] = $user['id'];
+                }
+                $response = json_decode(
+                    $this->_soundcloud->get('playlists', $options),
+                    true
+                );
+
+                return $response;
+
+            } else {
+
+                throw new Exception("Unable to retrieve playlists from SoundCloud. Please Check your SoundCloud preferences.");
             }
 
         } catch(Services_Soundcloud_Invalid_Http_Response_Code_Exception $e){

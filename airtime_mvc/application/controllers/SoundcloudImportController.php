@@ -61,6 +61,7 @@ class SoundcloudImportController extends Zend_Controller_Action
         $user = $soundcloud->getUser();
         $groups = $soundcloud->getGroups();
         $tracks = $soundcloud->getTracks();
+        $playlists = $soundcloud->getSets();
         $existing_tracks = $soundcloud->getImportedFileIds();
 
         //remove previously imported tracks
@@ -83,6 +84,7 @@ class SoundcloudImportController extends Zend_Controller_Action
         $this->view->client_id = $CC_CONFIG['soundcloud-client-id'];
         $this->view->user = $user;
         $this->view->groups = $groups;
+        $this->view->playlists = $playlists;
         $this->view->tracks = $tracks;
 
     }
