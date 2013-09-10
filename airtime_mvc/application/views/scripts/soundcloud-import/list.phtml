@@ -78,7 +78,6 @@
 
 					      <tbody role="alert" aria-live="polite" aria-relevant="all">
 						  <? foreach ($this->tracks as $index => $track): ?>
-						  <?php if($track['streamable']): ?>
 					         <tr class="<?= $index % 2 ? 'odd' : 'even' ?> sc-audio ui-draggable" id="sc_<?= $track['id'] ?>">
 					            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?= $track['id'] ?>" /></td>
 					            <td class="sclibrary_title sorting_1"><a target="soundcloud" href="<?= $track['permalink_url'] ?><?= $track['sharing']=='public'?'':'/'.$track['secret_token'] ?>" class="text-link soundcloud-title"><?= $track['title'] ?></a></td>
@@ -89,7 +88,6 @@
 					            </td>
 					            <td class="sclibrary_upload_time"><?= $track['created_at'] ?></td>
 					         </tr>
-					     <?php endif; ?>
 						 <? endforeach ?>
 
 						</tbody>
@@ -140,7 +138,7 @@
 
 						      <tbody role="alert" aria-live="polite" aria-relevant="all">
 								<?php foreach ($group['tracks'] as $track): ?> 
-								  <?php if($track['streamable']): ?>
+								  <?php if($track['downloadable'] || $track['user_id'] == $this->user['id']): ?>
 							         <tr class="<?= $index % 2 ? 'odd' : 'even' ?> sc-audio ui-draggable" id="sc_<?= $track['id'] ?>">
 							            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?= $track['id'] ?>" /></td>
 							            <td class="sclibrary_title sorting_1"><a target="soundcloud" href="<?= $track['permalink_url'] ?><?= $track['sharing']=='public'?'':'/'.$track['secret_token'] ?>" class="text-link soundcloud-title"><?= $track['title'] ?></a></td>
@@ -174,6 +172,7 @@
 					<ul class="breadcrumb">
 					  <li>Set <span class="divider">/</span></li>
 					  <li class="active"><?php echo $playlist['title'] . ': ' . $playlist['description']; ?>
+							<span class="label">Approved/Downloadable Tracks</span>
 					  </li>
 					</ul>
 
@@ -202,7 +201,7 @@
 
 						      <tbody role="alert" aria-live="polite" aria-relevant="all">
 								<?php foreach ($playlist['tracks'] as $track): ?> 
-								  <?php if($track['streamable']): ?>
+								  <?php if($track['downloadable'] || $track['user_id'] == $this->user['id']): ?>
 							         <tr class="<?= $index % 2 ? 'odd' : 'even' ?> sc-audio ui-draggable" id="sc_<?= $track['id'] ?>">
 							            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?= $track['id'] ?>" /></td>
 							            <td class="sclibrary_title sorting_1"><a target="soundcloud" href="<?= $track['permalink_url'] ?><?= $track['sharing']=='public'?'':'/'.$track['secret_token'] ?>" class="text-link soundcloud-title"><?= $track['title'] ?></a></td>
