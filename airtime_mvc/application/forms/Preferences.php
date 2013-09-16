@@ -26,5 +26,8 @@ class Application_Form_Preferences extends Zend_Form
         $usimdirect_pref = new Application_Form_UsimDirectPreferences();
         $this->addSubForm($usimdirect_pref, 'preferences_usimdirect');
 
+        $dropbox_pref = new Application_Form_DropboxPreferences();
+        $this->addSubForm($dropbox_pref, 'preferences_dropbox');
+
     }
 }

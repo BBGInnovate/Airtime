@@ -74,6 +74,10 @@ class PreferenceController extends Zend_Controller_Action
                 Application_Model_Preference::SetEnableUSIMDirect($values["EnableUSIMDirect"]);
                 Application_Model_Preference::SetUSIMDirectLanguage($values["USIMDirectLanguage"]);
 
+                Application_Model_Preference::SetEnableDropbox($values["EnableDropbox"]);
+                Application_Model_Preference::SetDropboxAuthCode($values["DropboxAuthCode"]);
+                //Application_Model_Preference::SetDropboxAccessToken($values["DropboxAccessToken"]);
+
                 $this->view->statusMsg = "<div class='success'>". _("Preferences updated.")."</div>";
                 $this->view->form = $form;
                 $this->_helper->json->sendJson(array("valid"=>"true", "html"=>$this->view->render('preference/index.phtml')));

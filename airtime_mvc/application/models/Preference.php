@@ -952,6 +952,27 @@ class Application_Model_Preference
 
 
 
+    public static function SetEnableDropbox($upload)
+    {
+        self::setValue("dropbox_enable", $upload);
+    }
+
+    public static function GetEnableDropbox()
+    {
+        return self::getValue("dropbox_enable");
+    }
+    public static function SetDropboxAuthCode($upload)
+    {
+        self::setValue("dropbox_authcode", $upload);
+    }
+
+    public static function GetDropboxAuthCode()
+    {
+        return self::getValue("dropbox_authcode");
+    }
+
+
+
     public static function SetWeekStartDay($day)
     {
         self::setValue("week_start_day", $day);

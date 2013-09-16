@@ -159,6 +159,20 @@ if(Application_Model_Preference::GetEnableUSIMDirect()){
     }
 }
 
+if(Application_Model_Preference::GetEnableDropbox()){
+    //Add the Dropbox sub-page link to nav
+    foreach ($pages as &$page) {
+        if(is_array($page) && $page['resource'] == 'plupload'){
+            $item = array(
+                            'label'      => 'Dropbox',
+                            'module'     => 'default',
+                            'controller' => 'dropbox-import'
+                        );
+            array_push($page['pages'], $item);
+        }
+    }
+}
+
 
 
 // Create container from array

@@ -1,0 +1,34 @@
+<fieldset class="padded">
+    <dl class="zend_form">
+        <dd id="EnableDropbox-element" class="block-display" style=" margin:6px 0 10px 0">
+            <label class="optional" for="EnableDropbox">
+                <?php echo $this->element->getElement('EnableDropbox') ?>
+                <strong><?php echo $this->element->getElement('EnableDropbox')->getLabel() ?></strong>
+            </label>
+            <span class="info-text-small"><?php echo _("Allow import of audio from Dropbox")?></span>
+            <?php if($this->element->getElement('EnableDropbox')->hasErrors()) : ?>
+                <ul class='errors'>
+                    <?php foreach($this->element->getElement('EnableDropbox')->getMessages() as $error): ?>
+                        <li><?php echo $error; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?> 
+        </dd>
+        <dt class="block-display">
+            <label class="required" for="DropboxAuthCode">
+                <strong><?php echo $this->element->getElement('DropboxAuthCode')->getLabel() ?></strong>
+            </label>
+        </dt>
+        <dd id="DropboxAuthCode-element" class="block-display">
+            <span class="info-text-small"><?php echo _("In order to authenticate with dropbox you'll have to grant access to dropbox by clicking the link below, allowing access, and saving the Authorization Code from Dropbox in the field below.")?></span>
+            <?php echo $this->element->getElement('DropboxAuthCode') ?>
+            <?php if($this->element->getElement('DropboxAuthCode')->hasErrors()) : ?>
+                <ul class='errors'>
+                    <?php foreach($this->element->getElement('DropboxAuthCode')->getMessages() as $error): ?>
+                        <li><?php echo $error; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?> 
+        </dd>
+    </dl>
+</fieldset>
