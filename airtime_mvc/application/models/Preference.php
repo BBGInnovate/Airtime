@@ -961,6 +961,7 @@ class Application_Model_Preference
     {
         return self::getValue("dropbox_enable");
     }
+
     public static function SetDropboxAuthCode($upload)
     {
         self::setValue("dropbox_authcode", $upload);
@@ -969,6 +970,22 @@ class Application_Model_Preference
     public static function GetDropboxAuthCode()
     {
         return self::getValue("dropbox_authcode");
+    }
+    
+    public static function SetDropboxAccessToken($upload)
+    {
+        self::setValue("dropbox_accesstoken", $upload);
+        //setting the authcode should also create the access token
+        if($upload != ""){
+            $dbxService = new Application_Service_Dropbox();
+            $token = $dbxService->createAccessToken();
+            self::setValue("dropbox_accesstoken", $token);
+        }
+    }
+
+    public static function GetDropboxAccessToken()
+    {
+        return self::getValue("dropbox_accesstoken");
     }
 
 

@@ -4,6 +4,20 @@ require_once 'customvalidators/ConditionalNotEmpty.php';
 class Application_Form_DropboxPreferences extends Zend_Form_SubForm
 {
 
+    public $authurl;
+
+      public function __construct()
+      {
+        //if the DropBox access token isn't set, output the authorization link
+        $storedToken = Application_Model_Preference::GetDropboxAccessToken();
+        if($storedToken == ""){
+            $dbxService = new Application_Service_Dropbox();
+            $this->authurl = $dbxService->getAuthorizationURL();
+        }
+        
+        $this->init();
+      }
+
     public function init()
     {
         $this->setDecorators(array(
@@ -30,7 +44,13 @@ class Application_Form_DropboxPreferences extends Zend_Form_SubForm
             'decorators' => array(
                 'ViewHelper'
             ),
+        ));
 
+        //Dropbox Access Token
+        $this->addElement('hidden', 'DropboxAccessToken', array(
+            'filters'    => array('StringTrim'),
+            'autocomplete' => 'off',
+            'value' => Application_Model_Preference::GetDropboxAccessToken(),
         ));
 
     }
