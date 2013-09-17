@@ -9,11 +9,11 @@ class Application_Form_DropboxPreferences extends Zend_Form_SubForm
       public function __construct()
       {
         //if the DropBox access token isn't set, output the authorization link
-        $storedToken = Application_Model_Preference::GetDropboxAccessToken();
-        if($storedToken == ""){
+        //$storedToken = Application_Model_Preference::GetDropboxAccessToken();
+        //if($storedToken == "" || is_null($storedToken)){
             $dbxService = new Application_Service_Dropbox();
             $this->authurl = $dbxService->getAuthorizationURL();
-        }
+        //}
         
         $this->init();
       }

@@ -30,9 +30,9 @@ class Application_Service_Dropbox
         $this->_accesstoken = Application_Model_Preference::GetDropboxAccessToken();
         $this->_webAuth = new dbx\WebAuthNoRedirect($this->_appInfo, $this->_clientIdentifier);
 
-        if($this->_accesstoken){
+        /*if($this->_accesstoken != "" || !is_null($this->_accesstoken)){
             $this->_dbxClient = new dbx\Client($this->_accessToken, $this->_clientIdentifier);         
-        }
+        }*/
         
     }
 
@@ -53,6 +53,12 @@ class Application_Service_Dropbox
     {
         return $this->_accesstoken;
     }
-    
+
+    public function getMetadata($path)
+    {
+        $md = $this->_dbxClient->getMetadataWithChildren($path);
+        return $md;
+    }
+
 
 }

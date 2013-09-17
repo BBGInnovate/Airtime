@@ -76,7 +76,17 @@ class PreferenceController extends Zend_Controller_Action
 
                 Application_Model_Preference::SetEnableDropbox($values["EnableDropbox"]);
                 Application_Model_Preference::SetDropboxAuthCode($values["DropboxAuthCode"]);
-                //Application_Model_Preference::SetDropboxAccessToken($values["DropboxAccessToken"]);
+                //setting the Authorization Code should also create the generate the accesstoken
+                if(Application_Model_Preference::GetDropboxAccessToken == ""){
+                    if($values['DropboxAuthCode'] != ""){
+                        $dbxService = new Application_Service_Dropbox();
+                        $token = $dbxService->createAccessToken();
+                        if($token){
+                            Application_Model_Preference::SetDropboxAuthCode($token);
+                        }
+                    }
+                }
+
 
                 $this->view->statusMsg = "<div class='success'>". _("Preferences updated.")."</div>";
                 $this->view->form = $form;

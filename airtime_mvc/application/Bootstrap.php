@@ -188,6 +188,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $this->_resourceLoader->addResourceType( 'service', 'services', 'Soundcloud' );
         $this->_resourceLoader->addResourceType( 'service', 'services', 'UsimDirect' );
+        $this->_resourceLoader->addResourceType( 'service', 'services', 'Dropbox' );
     }
 
 }
