@@ -48,6 +48,37 @@ class Application_Service_Dropbox
         }
     }
 
+    public function importFile($path)
+    {
+        if($path){
+            //get temp upload directory
+            $tmpdir = ini_get("upload_tmp_dir") . DIRECTORY_SEPARATOR . "dropbox" . DIRECTORY_SEPARATOR;
+            if (!file_exists($tmpdir)){
+                @mkdir($tmpdir, 0775, true);
+            }
+            $filename = basename($path);
+            $this->_dbxClient = $this->createClient();
+            $import = $this->_dbxClient->getFile($path, fopen($tmpdir . $filename, "wb"));
+            if($import){
+                Logging::info("Import dropbox file: $filename");
+                $info = array();
+                $info['filename'] = $filename;            
+                //Copy file to watch folder
+                $copy = Application_Model_StoredFile::copyFileToStor($tmpdir, $filename, $filename);
+                if(is_null($copy)){
+                    $success = true;
+                    $response = array('success' => $success, 'message' => "Copied file to watch folder.", 'info' => $info);
+                } else {
+                    //fail to move to watch folder
+                    $info['error'] = $copy;
+                    $response = array('success' => false, 'message' => "Failed to copy.", 'info' => $info);
+                }
+                return $import;
+            }
+        }
+        return FALSE;
+    }
+
     public function validToken()
     {
         //TODO: make a simple call to dbx core api, see if successful or invalid
@@ -61,12 +92,6 @@ class Application_Service_Dropbox
             return $this->_dbxClient;         
         }
         return FALSE;
-    }
-
-    public function getMetadata($path)
-    {
-        $md = $this->_dbxClient->getMetadataWithChildren($path);
-        return $md;
     }
 
     public function isEnabled()

@@ -1,11 +1,11 @@
 <div class="upload_wrapper">
-	<div id="usimdirect-import" class="container upload_container lib-content ui-widget ui-widget-content block-shadow alpha-block padded" style="">
+	<div id="dropbox-import" class="container upload_container lib-content ui-widget ui-widget-content block-shadow alpha-block padded" style="">
 		
 			<div class="tabbable">
 				<div class="navbar navbar-inverse">
 					<div class="navbar-inner">
 					<div class="brand">
-						<span><a href="http://direct.voanews.com" target="_blank">USIM Direct</a></span>
+						<span>Dropbox : <?php echo $this->dbx_account['display_name']; ?></span>
 					</div>
 				<ul class="nav">
 					  <li>
@@ -19,7 +19,7 @@
 				</ul>
 			</div>
 		</div>
-		<h1>DROPBOX IMPORT</h1>
+
 		<!-- processing message -->
 		<div id="import_status" class="library_import" style="display:none"><div>File import in progress...</div><img src="/css/images/file_import_loader.gif"></img></div>	
 		<div id="alert-box" class="alert" style="display:none;margin:10px 0;">
@@ -27,60 +27,67 @@
 		  <button type="button" class="close" data-dismiss="alert">&times;</button>
 		</div>
 
-				<div class="tab-content">
+		<div class="directory-browser block-shadow">
+		<div class="current">
+			<span class="<?php echo $this->items['icon']; ?>">
+				<?php $breadcrumbs = explode('/', $this->items['path']); ?>
+				<?php $crumb_path = ""; ?>
+				<ul class="breadcrumb">
+					<label>Current: </label>
+					<li class="folder root-dir">
+						<a href="/dropbox-import?path=/"><i class="icon-folder-open"></i>&nbsp;/</a>
+					</li>
+				<?php foreach($breadcrumbs as $breadcrumb): ?>
+					<?php if(!empty($breadcrumb)): ?>
+						<?php $crumb_path .= "/" . $breadcrumb; ?>
+						<li class="folder leaf-dir">
+							<a href="/dropbox-import?path=<?php echo $crumb_path; ?>">
+							<i class="icon-folder-open"></i>&nbsp;
+								<?php echo basename($breadcrumb); ?>
+							</a>
+						</li>
+					<?php endif; ?>
+				<?php endforeach; ?>
+				</ul>
+			</span>
+		</div>
+		<?php if(empty($this->items['contents'])): ?>
+			<div id="alert-box" class="alert" style="margin:10px 0;">
+			  <span class="plupload_upload_status">Empty directory.</span>
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		<?php else: ?>
+		<form class="dropbox-items">
+			<ul class="tree">
+				<?php foreach($this->items['contents'] as $index => $item): ?>
+					<li class="leaf <?php echo $item['icon']; ?>">
+						<span>
+							<?php if($item['is_dir']): ?>
+								<a href="/dropbox-import?path=<?php echo $item['path']; ?>">
+									<i class="icon-folder-close"></i>&nbsp;<?php echo basename($item['path']); ?>
+								</a>
+							<?php elseif(!strncmp($item['mime_type'], 'audio', 5)): ?>
+								<!-- audio item -->
+								<input type="radio" name="dropbox_files"value="<?php echo $item['path']; ?>" />
+								<i class="icon-headphones"></i>
+								<?php echo basename($item['path']); ?>
+							<?php endif; ?>
+						</span>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</form>
+		<?php endif; ?>
 
-					<!-- usim direct track list -->
-			        <div class="dataTables_wrapper">
+	</div><!-- /.directory-browser -->
 
-				        <div class="dataTables_scrolling scprofile" style="max-height: 400px;">
-						   <table id="sclibrary_display" cellpadding="0" cellspacing="0" class="datatable dataTable" aria-describedby="sclibrary_display_info">
-								<thead>
-						         <tr role="row">
-						            <th class="sclibrary_checkbox ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 25px;" aria-label="">
-						               <div class="DataTables_sort_wrapper"><span class="DataTables_sort_icon"></span></div>
-						            </th>
-						            <th class="sclibrary_title ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 170px;" aria-label="Title: activate to sort column ascending">
-						               <div class="DataTables_sort_wrapper">Title<span class="DataTables_sort_icon css_right ui-icon ui-icon-triangle-1-n"></span></div>
-						            </th>
-						            <th class="sclibrary_creator ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 160px;" aria-label="Username: activate to sort column ascending">
-						               <div class="DataTables_sort_wrapper">Username<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
-						            </th>
-						            <th class="sclibrary_length ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Length: activate to sort column ascending">
-						               <div class="DataTables_sort_wrapper">Length<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
-						            </th>
-						            <th class="sclibrary_upload_time ui-state-default" tabindex="0" rowspan="1" colspan="1" style="width: 125px;" aria-label="Created: activate to sort column ascending">
-						               <div class="DataTables_sort_wrapper">Created<span class="DataTables_sort_icon css_right ui-icon ui-icon-carat-2-n-s"></span></div>
-						            </th>
-						         </tr>
-						      </thead>
-
-						      <tbody role="alert" aria-live="polite" aria-relevant="all">
-							  <? foreach ($this->tracks as $index => $track): ?>
-						         <tr class="<?= $index % 2 ? 'odd' : 'even' ?> audio ui-draggable" id="item_<?= $track->nid ?>">
-						            <td class="usimdirect_library_checkbox"><input type="radio" name="usimdirect_files" value="<?= $track->nid ?>" /></td>
-						            <td class="library_title sorting_1"><?= $track->node->title ?></td>
-						            <td class="library_creator"><?= $track->node->field_credit->und[0]->value ?></td>
-						            <td class="library_length">
-										<? $total_seconds = $track->node->field_duration->und[0]->value; ?>
-									    <? print gmdate("H:i:s", $total_seconds); ?>
-						            </td>
-						            <td class="library_upload_time"><?= date('c', $track->node->created) ?></td>
-						         </tr>
-							 <? endforeach ?>
-
-							</tbody>
-						</table>
-
-					</div><!-- ./scprofile -->
-				</div><!-- /.dataTables_wrapper -->
-
-
-			</div> <!-- /.tab-content -->
-
-		</div><!-- /.tabbable -->
+	<pre>
+		<?php //print_r($this->items); ?>
+	</pre>
 
 
 
-	</div><!-- /#usimdirect-import -->
+
+	</div><!-- /#dropbox-import -->
 </div> <!-- /.upload_wrapper -->
 

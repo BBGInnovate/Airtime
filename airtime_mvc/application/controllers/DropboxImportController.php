@@ -5,7 +5,7 @@ class DropboxImportController extends Zend_Controller_Action
     public function init()
     {
         $ajaxContext = $this->_helper->getHelper('AjaxContext');
-        $ajaxContext->addActionContext('import', 'json')
+        $ajaxContext->addActionContext('do-import', 'json')
                     ->initContext();
 
     }
@@ -41,7 +41,7 @@ class DropboxImportController extends Zend_Controller_Action
 
         $this->view->headScript()->appendFile($baseUrl.'/js/airtime/buttons/buttons.js?'.$CC_CONFIG['airtime_version'], 'text/javascript');
         $this->view->headScript()->appendFile($baseUrl.'/js/airtime/utilities/utilities.js?'.$CC_CONFIG['airtime_version'], 'text/javascript');
-        $this->view->headScript()->appendFile($baseUrl.'/js/airtime/usimdirect/usimdirect.js?'.$CC_CONFIG['airtime_version'], 'text/javascript');
+        $this->view->headScript()->appendFile($baseUrl.'/js/airtime/dropbox/dropbox.js?'.$CC_CONFIG['airtime_version'], 'text/javascript');
 
         $this->view->headLink()->appendStylesheet($baseUrl.'/css/jquery.contextMenu.css?'.$CC_CONFIG['airtime_version']);
         $this->view->headLink()->appendStylesheet($baseUrl.'/css/datatables/css/ColVis.css?'.$CC_CONFIG['airtime_version']);
@@ -49,42 +49,45 @@ class DropboxImportController extends Zend_Controller_Action
 
         $this->view->headScript()->appendFile($baseUrl.'/js/airtime/playlist/smart_blockbuilder.js?'.$CC_CONFIG['airtime_version'], 'text/javascript');
         $this->view->headLink()->appendStylesheet($baseUrl.'/css/playlist_builder.css?'.$CC_CONFIG['airtime_version']);
+        $this->view->headLink()->appendStylesheet($baseUrl.'/css/import.css?'.$CC_CONFIG['airtime_version']);
 
-        $dbx = new Application_Service_Dropbox();
-        //get the root metadata
-        $items = $dbx->getMetadata("/");
+        $path = $request->getParam('path') ? $request->getParam('path') : "/"; 
+        $dropbox = new Application_Service_Dropbox();
+        $dbxClient = $dropbox->createClient();
+        //get the dropbox directory list
+        $items = $dbxClient->getMetadataWithChildren($path);
 
         //add to view
-        $this->view->items = $itmes;
+        $this->view->items = $items;
+        $this->view->dbx_account = $dbxClient->getAccountInfo();
 
     }
 
 
-    public function importAction()
+    public function doImportAction()
     {
         /* **
-         * Get SoundCloud ID from a form and import the remote file 
+         * Get Dropbox ID from a form and import the remote file 
          * **/
         $request = $this->getRequest();
         if($request->isXmlHttpRequest()) {
             $this->_helper->layout()->disableLayout();
-
-            $id = $this->_request->getPost("id");
-            if(is_numeric($id)){
-                //$usimdirect = new Application_Service_UsimDirect();
-                //$response = $usimdirect->importTrack($id);
+            $path = $this->_request->getPost("path");
+            if($path){
+                $dropbox = new Application_Service_Dropbox();
+                //import given path
+                $response = $dropbox->importFile($path);
 
                 $this->view->response = $response;
                 
             } else {
-                throw new Exception("Error. Invalid ID.");
+                throw new Exception("Error. Invalid Dropbox Path.");
             }
 
         }else{
           throw new Exception("Error. This is not an Ajax request.");
         }
     }
-
 
 
 

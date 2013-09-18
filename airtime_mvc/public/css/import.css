@@ -1,0 +1,34 @@
+/* Import Styles */
+#dropbox-import .navbar .brand{
+    background: url('../images/import/dropbox-icon.png') transparent no-repeat top left;
+    padding-left: 40px;
+}
+.breadcrumb{
+    background-color: #CCC;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px 0;
+}
+.breadcrumb label{
+    float: left;
+    margin-right: 10px;
+    font-weight: bold;
+}
+ul.breadcrumb li{
+    display: inline;
+}
+.directory-browser{
+    border: 1px #999 solid;
+    padding: 5px;
+}
+.directory-browser a{
+    text-decoration: none;
+}
+.directory-browser ul li{
+    list-style-type: none;
+    list-style-image: none;
+    margin: 5px;
+    text-indent: 5px;
+}
