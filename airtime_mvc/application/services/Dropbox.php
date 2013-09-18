@@ -18,7 +18,7 @@ class Application_Service_Dropbox
     private $_authcode;
     private $_accesstoken;
     private $_userid;
-    private $_clientIdentifier = "Airtime";
+    private $_clientid = "Airtime";
 
     public function __construct()
     {
@@ -28,30 +28,39 @@ class Application_Service_Dropbox
         $this->_enabled = Application_Model_Preference::GetEnableDropbox();
         $this->_authcode = Application_Model_Preference::GetDropboxAuthCode();
         $this->_accesstoken = Application_Model_Preference::GetDropboxAccessToken();
-        $this->_webAuth = new dbx\WebAuthNoRedirect($this->_appInfo, $this->_clientIdentifier);
-
-        /*if($this->_accesstoken != "" || !is_null($this->_accesstoken)){
-            $this->_dbxClient = new dbx\Client($this->_accessToken, $this->_clientIdentifier);         
-        }*/
+        //Zend_Debug::dump($this->_accesstoken);
+        //exit;
         
     }
 
     public function getAuthorizationURL()
     {
+        $this->_webAuth = new dbx\WebAuthNoRedirect($this->_appInfo, $this->_clientid);
         return $this->_webAuth->start();
     }
 
-    public function createAccessToken()
+    public function createAccessToken($authcode)
     {
-        if($this->_authcode){
+        if($this->_authcode && $this->_appInfo){
+            $this->_webAuth = new dbx\WebAuthNoRedirect($this->_appInfo, $this->_clientid);
             list($this->_accesstoken, $this->_userid) = $this->_webAuth->finish($this->_authcode);
             return $this->_accesstoken;
         }
     }
 
-    public function getAccessToken()
+    public function validToken()
     {
-        return $this->_accesstoken;
+        //TODO: make a simple call to dbx core api, see if successful or invalid
+        return FALSE;
+    }
+
+    public function createClient()
+    {
+        if($this->_accesstoken != ""){
+            $this->_dbxClient = new dbx\Client($this->_accesstoken, $this->_clientid);
+            return $this->_dbxClient;         
+        }
+        return FALSE;
     }
 
     public function getMetadata($path)
@@ -60,5 +69,39 @@ class Application_Service_Dropbox
         return $md;
     }
 
+    public function isEnabled()
+    {
+        return $this->_enabled ? $this->_enabled : 0;
+    }
+
+    public function getAccessToken()
+    {
+        return $this->_accesstoken;
+    }
+
+    public function getAuthCode()
+    {
+        return $this->_authcode;
+    }
+
+    public function getUserId()
+    {
+        return $this->_userid;
+    }
+
+    public function setAccessToken($token)
+    {
+        $this->_accesstoken = $token;
+    }
+
+    public function setAuthCode($code)
+    {
+        $this->_authcode = $code;
+    }
+
+    public function setUserId($id)
+    {
+        $this->_userid = $id;
+    }
 
 }

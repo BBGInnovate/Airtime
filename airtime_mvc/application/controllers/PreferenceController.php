@@ -74,19 +74,23 @@ class PreferenceController extends Zend_Controller_Action
                 Application_Model_Preference::SetEnableUSIMDirect($values["EnableUSIMDirect"]);
                 Application_Model_Preference::SetUSIMDirectLanguage($values["USIMDirectLanguage"]);
 
+                //Handle Dropbox Settings (TODO: move this to Dropbox service?)
                 Application_Model_Preference::SetEnableDropbox($values["EnableDropbox"]);
-                Application_Model_Preference::SetDropboxAuthCode($values["DropboxAuthCode"]);
-                //setting the Authorization Code should also create the generate the accesstoken
-                if(Application_Model_Preference::GetDropboxAccessToken == ""){
-                    if($values['DropboxAuthCode'] != ""){
-                        $dbxService = new Application_Service_Dropbox();
-                        $token = $dbxService->createAccessToken();
+                $dropbox = new Application_Service_Dropbox();
+                if($dropbox && $dropbox->isEnabled()){
+                    //Dropbox is enabled
+                    if($values["DropboxAuthCode"] != "" && $values["DropboxAuthCode"] != $dropbox->getAuthCode()){
+                        //the Authorization Code has been updated
+                        Application_Model_Preference::SetDropboxAuthCode($values["DropboxAuthCode"]);
+                        //update obj with new auth code
+                        $dropbox->setAuthCode($values["DropboxAuthCode"]);
+                        //create/store access token for corresponding Authorization Code
+                        $token = $dropbox->createAccessToken();
                         if($token){
-                            Application_Model_Preference::SetDropboxAuthCode($token);
+                            Application_Model_Preference::SetDropboxAccessToken($token);
                         }
                     }
                 }
-
 
                 $this->view->statusMsg = "<div class='success'>". _("Preferences updated.")."</div>";
                 $this->view->form = $form;
