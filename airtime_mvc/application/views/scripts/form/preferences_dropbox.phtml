@@ -19,11 +19,11 @@
                 <strong><?php echo $this->element->getElement('DropboxAuthCode')->getLabel() ?></strong>
             </label>
             <?php if($this->element->authurl): ?>
-                <a href="<?php echo $this->element->authurl; ?>" target="_blank" class="authorize dropbox">Get the Authorization Code from Dropbox</a>
+                <a href="<?php echo $this->element->authurl; ?>" target="_blank" class="authorize dropbox" style="font-size:12px; font-weight:normal; margin:0 10px; display:inline-block;"><i class="ui-icon ui-icon-extlink" style="float:left;"></i> Get the Authorization Code</a>
             <?php endif; ?>
         </dt>
         <dd id="DropboxAuthCode-element" class="block-display">
-            <span class="info-text-small"><?php echo _("In order to authenticate with dropbox you'll have to grant access to dropbox by clicking the link below, allowing access, and saving the Authorization Code from Dropbox in the field below.")?></span>
+            <span class="info-text-small"><?php echo _("In order to authenticate with dropbox you'll have to grant access to dropbox by clicking the Authorization link, allowing access, and saving the Authorization Code from Dropbox in the field below.")?></span>
             <?php echo $this->element->getElement('DropboxAuthCode') ?>
             <?php if($this->element->getElement('DropboxAuthCode')->hasErrors()) : ?>
                 <ul class='errors'>

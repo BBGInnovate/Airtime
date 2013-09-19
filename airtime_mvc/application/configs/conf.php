@@ -52,8 +52,8 @@ class Config {
         $CC_CONFIG['soundcloud-connection-retries'] = $values['soundcloud']['connection_retries'];
         $CC_CONFIG['soundcloud-connection-wait'] = $values['soundcloud']['time_between_retries'];
 
-        $CC_CONFIG['dropbox']['key'] = '37q1oaxbvwzner1';
-        $CC_CONFIG['dropbox']['secret'] = 'k94n9cavtr2p2k1';
+        $CC_CONFIG['dropbox']['key'] = 'n5jqvvlmg9orvbc';
+        $CC_CONFIG['dropbox']['secret'] = 'ahzv1xqhvqbeaui';
         
         if(isset($values['demo']['demo'])){
             $CC_CONFIG['demo'] = $values['demo']['demo'];
