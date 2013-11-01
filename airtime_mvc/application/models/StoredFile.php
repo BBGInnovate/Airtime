@@ -657,54 +657,70 @@ SQL;
                 $blSelect[]     = "BL.id AS ".$key;
                 $fileSelect[]   = "FILES.id AS $key";
                 $streamSelect[] = "ws.id AS ".$key;
-            } elseif ($key === "track_title") {
+            } 
+            elseif ($key === "track_title") {
                 $plSelect[]     = "name AS ".$key;
                 $blSelect[]     = "name AS ".$key;
                 $fileSelect[]   = $key;
                 $streamSelect[] = "name AS ".$key;
-            } elseif ($key === "ftype") {
+            } 
+            elseif ($key === "ftype") {
                 $plSelect[]     = "'playlist'::varchar AS ".$key;
                 $blSelect[]     = "'block'::varchar AS ".$key;
                 $fileSelect[]   = $key;
                 $streamSelect[] = "'stream'::varchar AS ".$key;
-            } elseif ($key === "artist_name") {
+            } 
+            elseif ($key === "artist_name") {
                 $plSelect[]     = "login AS ".$key;
                 $blSelect[]     = "login AS ".$key;
                 $fileSelect[]   = $key;
                 $streamSelect[] = "login AS ".$key;
-            } elseif ($key === "owner_id") {
+            } 
+            elseif ($key === "owner_id") {
                 $plSelect[]     = "login AS ".$key;
                 $blSelect[]     = "login AS ".$key;
                 $fileSelect[]   = "sub.login AS $key";
                 $streamSelect[] = "login AS ".$key;
-            } elseif ($key === "replay_gain") {
+            } 
+            elseif ($key === "replay_gain") {
                 $plSelect[]     = "NULL::NUMERIC AS ".$key;
                 $blSelect[]     = "NULL::NUMERIC AS ".$key;
                 $fileSelect[]   = $key;
                 $streamSelect[] = "NULL::NUMERIC AS ".$key;
-            } elseif ($key === "lptime") {
+            } 
+            elseif ($key === "lptime") {
                 $plSelect[]     = "NULL::TIMESTAMP AS ".$key;
                 $blSelect[]     = "NULL::TIMESTAMP AS ".$key;
                 $fileSelect[]   = $key;
                 $streamSelect[] = $key;
-            } elseif ($key === "is_scheduled" || $key === "is_playlist") {
+            } 
+            elseif ($key === "is_scheduled" || $key === "is_playlist") {
                 $plSelect[]     = "NULL::boolean AS ".$key;
                 $blSelect[]     = "NULL::boolean AS ".$key;
                 $fileSelect[]   = $key;
                 $streamSelect[] = "NULL::boolean AS ".$key;
-            } elseif ($key === "cuein" || $key === "cueout") {
+            } 
+            elseif ($key === "cuein" || $key === "cueout") {
                 $plSelect[]     = "NULL::INTERVAL AS ".$key;
                 $blSelect[]     = "NULL::INTERVAL AS ".$key;
                 $fileSelect[]   = $key;
                 $streamSelect[] = "NULL::INTERVAL AS ".$key;
             }
+            //file length is displayed based on cueout - cuein.
+            else if ($key === "length") {
+            	$plSelect[]     = $key;
+            	$blSelect[]     = $key;
+            	$fileSelect[]   = "(cueout - cuein)::INTERVAL AS length";
+            	$streamSelect[] = $key;
+            }
             //same columns in each table.
-            else if (in_array($key, array("length", "utime", "mtime"))) {
+            else if (in_array($key, array("utime", "mtime"))) {
                 $plSelect[]     = $key;
                 $blSelect[]     = $key;
                 $fileSelect[]   = $key;
                 $streamSelect[] = $key;
-            } elseif ($key === "year") {
+            } 
+            elseif ($key === "year") {
                 $plSelect[]     = "EXTRACT(YEAR FROM utime)::varchar AS ".$key;
                 $blSelect[]     = "EXTRACT(YEAR FROM utime)::varchar AS ".$key;
                 $fileSelect[]   = "year AS ".$key;
@@ -716,17 +732,20 @@ SQL;
                 $blSelect[]     = "NULL::int AS ".$key;
                 $fileSelect[]   = $key;
                 $streamSelect[] = "NULL::int AS ".$key;
-            } elseif ($key === "filepath") {
+            } 
+            elseif ($key === "filepath") {
                 $plSelect[]     = "NULL::VARCHAR AS ".$key;
                 $blSelect[]     = "NULL::VARCHAR AS ".$key;
                 $fileSelect[]   = $key;
                 $streamSelect[] = "url AS ".$key;
-            } else if ($key == "mime") {
+            } 
+            else if ($key == "mime") {
                 $plSelect[]     = "NULL::VARCHAR AS ".$key;
                 $blSelect[]     = "NULL::VARCHAR AS ".$key;
                 $fileSelect[]   = $key;
                 $streamSelect[] = $key;
-            } else {
+            } 
+            else {
                 $plSelect[]     = "NULL::text AS ".$key;
                 $blSelect[]     = "NULL::text AS ".$key;
                 $fileSelect[]   = $key;
@@ -778,17 +797,30 @@ SQL;
         foreach ($results['aaData'] as &$row) {
             $row['id'] = intval($row['id']);
 
-            $len_formatter = new LengthFormatter(
-                self::getRealClipLength($row["cuein"], $row["cueout"]));
-            $row['length'] = $len_formatter->format();
-
-            $cuein_formatter = new LengthFormatter($row["cuein"]);
-            $row["cuein"] = $cuein_formatter->format();
-
-            $cueout_formatter = new LengthFormatter($row["cueout"]);
-            $row["cueout"] = $cueout_formatter->format();
+            //taken from Datatables.php, needs to be cleaned up there.
+            if (isset($r['ftype'])) {
+                if ($r['ftype'] == 'playlist') {
+                    $pl = new Application_Model_Playlist($r['id']);
+                    $r['length'] = $pl->getLength();
+                } elseif ($r['ftype'] == "block") {
+                    $bl = new Application_Model_Block($r['id']);
+                    $r['bl_type'] = $bl->isStatic() ? 'static' : 'dynamic';
+                    $r['length']  = $bl->getLength();
+                }
+            }
 
             if ($row['ftype'] === "audioclip") {
+
+                $cuein_formatter = new LengthFormatter($row["cuein"]);
+                $row["cuein"] = $cuein_formatter->format();
+
+                $cueout_formatter = new LengthFormatter($row["cueout"]);
+                $row["cueout"] = $cueout_formatter->format();
+
+                $cuein = Application_Common_DateHelper::playlistTimeToSeconds($row["cuein"]);
+                $cueout = Application_Common_DateHelper::playlistTimeToSeconds($row["cueout"]);
+                $row_length = Application_Common_DateHelper::secondsToPlaylistTime($cueout - $cuein);
+
                 $formatter = new SamplerateFormatter($row['sample_rate']);
                 $row['sample_rate'] = $formatter->format();
 
@@ -801,9 +833,16 @@ SQL;
 
                 // for audio preview
                 $row['audioFile'] = $row['id'].".".pathinfo($row['filepath'], PATHINFO_EXTENSION);
-            } else {
-                $row['audioFile'] = $row['id'];
+
             }
+            else {
+
+                $row['audioFile'] = $row['id'];
+                $row_length = $row['length'];
+            }
+
+            $len_formatter = new LengthFormatter($row_length);
+            $row['length'] = $len_formatter->format();
 
             //convert mtime and utime to localtime
             $row['mtime'] = new DateTime($row['mtime'], new DateTimeZone('UTC'));
@@ -1314,20 +1353,14 @@ SQL;
         }
     }
 
-    public static function setIsScheduled($p_scheduleItem, $p_status,
-        $p_fileId=null) {
+    public static function setIsScheduled($fileId, $status) {
 
-        if (is_null($p_fileId)) {
-            $fileId = Application_Model_Schedule::GetFileId($p_scheduleItem);
-        } else {
-            $fileId = $p_fileId;
-        }
         $file = self::RecallById($fileId);
         $updateIsScheduled = false;
 
         if (!is_null($fileId) && !in_array($fileId,
             Application_Model_Schedule::getAllFutureScheduledFiles())) {
-            $file->_file->setDbIsScheduled($p_status)->save();
+            $file->_file->setDbIsScheduled($status)->save();
             $updateIsScheduled = true;
         }
 
@@ -1355,14 +1388,6 @@ AND id NOT IN (
 SQL;
         Application_Common_Database::prepareAndExecute($sql, array(),
             Application_Common_Database::EXECUTE);
-    }
-
-    public static function getRealClipLength($p_cuein, $p_cueout) {
-        $sql = "SELECT :cueout::INTERVAL - :cuein::INTERVAL";
-
-        return Application_Common_Database::prepareAndExecute($sql, array(
-            ':cueout' => $p_cueout,
-            ':cuein' => $p_cuein), 'column');
     }
 }
 

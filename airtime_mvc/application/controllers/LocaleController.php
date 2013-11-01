@@ -148,17 +148,7 @@ class LocaleController extends Zend_Controller_Action
             "is greater than" => _("is greater than"),
             "is less than" => _("is less than"),
             "is in the range" => _("is in the range"),
-            //playouthistory/historytable.js
-            "Title" => _("Title"),
-            "Creator" => _("Creator"),
-            "Played" => _("Played"),
-            "Length" => _("Length"),
-            "Composer" => _("Composer"),
-            "Copyright" => _("Copyright"),
-            "All" => _("All"),
-            "Copied %s row%s to the clipboard" => _("Copied %s row%s to the clipboard"),
-            "%sPrint view%sPlease use your browser's print function to print this table. Press escape when finished." => _("%sPrint view%sPlease use your browser's print function to print this table. Press escape when finished."),
-            //preferences/musicdirs.js
+           //preferences/musicdirs.js
             "Choose Storage Folder" => _("Choose Storage Folder"),
             "Choose Folder to Watch" => _("Choose Folder to Watch"),
             "Are you sure you want to change the storage folder?\nThis will remove the files from your Airtime library!"
@@ -194,6 +184,7 @@ class LocaleController extends Zend_Controller_Action
             "The show instance doesn't exist anymore!" => _("The show instance doesn't exist anymore!"),
             "Warning: Shows cannot be re-linked" => _("Warning: Shows cannot be re-linked"),
             "By linking your repeating shows any media items scheduled in any repeat show will also get scheduled in the other repeat shows" => _("By linking your repeating shows any media items scheduled in any repeat show will also get scheduled in the other repeat shows"),
+            "Timezone is set to the station timezone by default. Shows in the calendar will be displayed in your local time defined by the Interface Timezone in your user settings." => _("Timezone is set to the station timezone by default. Shows in the calendar will be displayed in your local time defined by the Interface Timezone in your user settings."),
             //schedule/full-calendar-functions
             //already in schedule/add-show.js
             //"The show instance doesn't exist anymore!" => _("The show instance doesn't exist anymore!"),
@@ -391,13 +382,20 @@ class LocaleController extends Zend_Controller_Action
             "File: %f, size: %s, max file size: %m" => _("File: %f, size: %s, max file size: %m"),
             "Upload URL might be wrong or doesn't exist" => _("Upload URL might be wrong or doesn't exist"),
             "Error: File too large: " => _("Error: File too large: "),
-            "Error: Invalid file extension: " => _("Error: Invalid file extension: ")
-                
+            "Error: Invalid file extension: " => _("Error: Invalid file extension: "),
+            //history translations
+            "Set Default" => _("Set Default"),
+            "Create Entry" => _("Create Entry"),
+            "Edit History Record" => _("Edit History Record"),
+            "No Show" => _("No Show"),
+            "All" => _("All"),
+            "Copied %s row%s to the clipboard" => _("Copied %s row%s to the clipboard"),
+            "%sPrint view%sPlease use your browser's print function to print this table. Press escape when finished." => _("%sPrint view%sPlease use your browser's print function to print this table. Press escape when finished.")
         );
         $this->view->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         header("Content-type: text/javascript");
         echo "var general_dict=".json_encode($translations);
-        
+
     }
 }

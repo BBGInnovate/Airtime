@@ -173,6 +173,10 @@ class Application_Service_SchedulerService
          * any other instances with content
          */
         $instanceIds = $ccShow->getInstanceIds();
+        if (count($instanceIds) == 0) {
+            return;
+        }
+
         $schedule_sql = "SELECT * FROM cc_schedule ".
             "WHERE instance_id IN (".implode($instanceIds, ",").")";
         $ccSchedules = Application_Common_Database::prepareAndExecute(
@@ -248,22 +252,24 @@ class Application_Service_SchedulerService
                 }
             } //foreach linked instance
 
-            $insert_sql = "INSERT INTO cc_schedule (starts, ends, ".
-                "clip_length, fade_in, fade_out, cue_in, cue_out, ".
-                "file_id, stream_id, instance_id, position)  VALUES ".
-                implode($values, ",");
+            if (!empty($values)) {
+                $insert_sql = "INSERT INTO cc_schedule (starts, ends, ".
+                    "clip_length, fade_in, fade_out, cue_in, cue_out, ".
+                    "file_id, stream_id, instance_id, position)  VALUES ".
+                    implode($values, ",");
 
-            Application_Common_Database::prepareAndExecute(
-                $insert_sql, array(), Application_Common_Database::EXECUTE);
+                Application_Common_Database::prepareAndExecute(
+                    $insert_sql, array(), Application_Common_Database::EXECUTE);
 
-            //update time_filled in cc_show_instances
-            $now = gmdate("Y-m-d H:i:s");
-            $update_sql = "UPDATE cc_show_instances SET ".
-                "time_filled = '{$timeFilled}', ".
-                "last_scheduled = '{$now}' ".
-                "WHERE show_id = {$ccShow->getDbId()}";
-            Application_Common_Database::prepareAndExecute(
-                $update_sql, array(), Application_Common_Database::EXECUTE);
+                //update time_filled in cc_show_instances
+                $now = gmdate("Y-m-d H:i:s");
+                $update_sql = "UPDATE cc_show_instances SET ".
+                    "time_filled = '{$timeFilled}', ".
+                    "last_scheduled = '{$now}' ".
+                    "WHERE show_id = {$ccShow->getDbId()}";
+                Application_Common_Database::prepareAndExecute(
+                    $update_sql, array(), Application_Common_Database::EXECUTE);
+            }
 
         } //if at least one linked instance has content
     }
@@ -404,5 +410,25 @@ class Application_Service_SchedulerService
             Logging::info($e->getMessage());
             return false;
         }
+    }
+    
+    /*
+     * TODO in the future this should probably support webstreams.
+     */
+    public function updateFutureIsScheduled($scheduleId, $status) 
+    {
+    	$sched = CcScheduleQuery::create()->findPk($scheduleId);
+    	$redraw = false;
+    	
+    	if (isset($sched)) {
+    		
+    		$fileId = $sched->getDbFileId();
+    		
+    		if (isset($fileId)) {
+    			$redraw = Application_Model_StoredFile::setIsScheduled($fileId, $status);
+    		}
+    	}
+    	
+    	return $redraw;
     }
 }

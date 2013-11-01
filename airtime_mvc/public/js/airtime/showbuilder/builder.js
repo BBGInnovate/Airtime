@@ -178,7 +178,12 @@ var AIRTIME = (function(AIRTIME){
     };
     
     mod.checkToolBarIcons = function() {
-        AIRTIME.library.checkAddButton();
+    	
+    	//library may not be on the page.
+    	if (AIRTIME.library !== undefined) {
+    		AIRTIME.library.checkAddButton();
+    	}
+        
         mod.checkSelectButton();
         mod.checkTrimButton();
         mod.checkDeleteButton();
@@ -485,7 +490,7 @@ var AIRTIME = (function(AIRTIME){
                     $image,
                     $div,
                     headerIcon;
-                
+
                 fnPrepareSeparatorRow = function fnPrepareSeparatorRow(sRowContent, sClass, iNodeIndex) {
                     $node = $(nRow.children[iNodeIndex]);
                     $node.html(sRowContent);
@@ -620,7 +625,7 @@ var AIRTIME = (function(AIRTIME){
                     }
                     
                     $node = $(nRow.children[0]);
-                    if (aData.allowed === true && aData.scheduled >= 1) {
+                    if (aData.allowed === true && aData.scheduled >= 1 && aData.linked_allowed) {
                         $node.html('<input type="checkbox" name="'+aData.id+'"></input>');
                     }
                     else {
@@ -841,7 +846,7 @@ var AIRTIME = (function(AIRTIME){
         });
         
         $sbTable.find("tbody").on("click", "input:checkbox", function(ev) {
-            
+          
             var $cb = $(this),
                 $tr = $cb.parents("tr"),
                 $prev;

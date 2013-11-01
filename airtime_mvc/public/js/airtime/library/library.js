@@ -760,7 +760,7 @@ var AIRTIME = (function(AIRTIME) {
             },
             "fnDrawCallback": AIRTIME.library.fnDrawCallback,
             
-            "aaSorting": [[3, 'asc']],
+            "aaSorting": [[5, 'asc']],
             "sPaginationType": "full_numbers",
             "bJQueryUI": true,
             "bAutoWidth": false,
@@ -782,9 +782,6 @@ var AIRTIME = (function(AIRTIME) {
             }
             
         });
-
-        //sort by title, by default
-        oTable.fnSort( [ [5, 'asc'] ] );
 
         setColumnFilter(oTable);
         oTable.fnSetFilteringDelay(350);
@@ -1123,16 +1120,16 @@ function closeDialogLibrary(event, ui) {
 
 function checkImportStatus() {
     $.getJSON(baseUrl+'Preference/is-import-in-progress', function(data){
-        var div = $('#import_status');
+        var $div = $('#import_status');
         var table = $('#library_display').dataTable();
         if (data == true){
-            div.show();
+            $div.show();
         }
         else{
-            if ($(div).is(':visible')) {
+            if ($div.is(':visible')) {
                 table.fnStandingRedraw();
             }
-            div.hide();
+            $div.hide();
         }
         setTimeout(checkImportStatus, 5000);
     });

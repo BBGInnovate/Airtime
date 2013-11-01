@@ -45,11 +45,16 @@ class Application_Service_CalendarService
             if ($this->ccShowInstance->isRecorded()) {
 
                 $ccFile = $this->ccShowInstance->getCcFiles();
-
-                $menu["view_recorded"] = array(
-                    "name" => _("View Recorded File Metadata"),
-                    "icon" => "overview",
-                    "url" => $baseUrl."library/edit-file-md/id/".$ccFile->getDbId());
+                if (!isset($ccFile)) {
+                     $menu["error when recording"] = array (
+                         "name" => _("Record file doesn't exist"),
+                         "icon" => "error");
+                }else {
+                    $menu["view_recorded"] = array(
+                        "name" => _("View Recorded File Metadata"),
+                        "icon" => "overview",
+                        "url" => $baseUrl."library/edit-file-md/id/".$ccFile->getDbId());
+                }
 
                 //recorded show can be uploaded to soundcloud
                 if (Application_Model_Preference::GetUploadToSoundcloudOption()) {
@@ -74,22 +79,27 @@ class Application_Service_CalendarService
                     "url" => $baseUrl."schedule/show-content-dialog");
             }
         } else {
-            //Show content can be modified from the calendar if:
-            // the show has not ended,
+            // Show content can be modified from the calendar if:
             // the user is admin or hosting the show,
             // the show is not recorded
+            
             if ($now < $end && ($isAdminOrPM || $isHostOfShow) &&
-                !$this->ccShowInstance->isRecorded() ) {
-
-                $menu["schedule"] = array(
-                        "name"=> _("Add / Remove Content"),
-                        "icon" => "add-remove-content",
-                        "url" => $baseUrl."showbuilder/builder-dialog/");
-
-                $menu["clear"] = array(
-                        "name"=> _("Remove All Content"),
-                        "icon" => "remove-all-content",
-                        "url" => $baseUrl."schedule/clear-show");
+            		!$this->ccShowInstance->isRecorded() ) {
+            
+            	$menu["schedule"] = array(
+            			"name"=> _("Add / Remove Content"),
+            			"icon" => "add-remove-content",
+            			"url" => $baseUrl."showbuilder/builder-dialog/");
+            	
+            }
+            
+            if ($now < $start && ($isAdminOrPM || $isHostOfShow) &&
+            		!$this->ccShowInstance->isRecorded() ) {
+            
+            	$menu["clear"] = array(
+            			"name"=> _("Remove All Content"),
+            			"icon" => "remove-all-content",
+            			"url" => $baseUrl."schedule/clear-show");
             }
 
             //"Show Content" should be a menu item at all times except when
@@ -226,9 +236,9 @@ class Application_Service_CalendarService
         //the user is moving the show on the calendar from the perspective of local time.
         //incase a show is moved across a time change border offsets should be added to the localtime
         //stamp and then converted back to UTC to avoid show time changes!
-        $localTimezone = Application_Model_Preference::GetTimezone();
-        $startsDateTime->setTimezone(new DateTimeZone($localTimezone));
-        $endsDateTime->setTimezone(new DateTimeZone($localTimezone));
+        $showTimezone = $this->ccShow->getFirstCcShowDay()->getDbTimezone();
+        $startsDateTime->setTimezone(new DateTimeZone($showTimezone));
+        $endsDateTime->setTimezone(new DateTimeZone($showTimezone));
 
         $newStartsDateTime = self::addDeltas($startsDateTime, $deltaDay, $deltaMin);
         $newEndsDateTime = self::addDeltas($endsDateTime, $deltaDay, $deltaMin);
@@ -253,7 +263,7 @@ class Application_Service_CalendarService
             $minRebroadcastStart = self::addDeltas($newEndsDateTime, 0, 60);
             //check if we are moving a recorded show less than 1 hour before any of its own rebroadcasts.
             $rebroadcasts = CcShowInstancesQuery::create()
-                ->filterByDbOriginalShow($this->_instanceId)
+                ->filterByDbOriginalShow($this->ccShow->getDbId())
                 ->filterByDbStarts($minRebroadcastStart->format('Y-m-d H:i:s'), Criteria::LESS_THAN)
                 ->find();
 
@@ -263,8 +273,9 @@ class Application_Service_CalendarService
         }
 
         if ($this->ccShow->isRebroadcast()) {
-            $recordedShow = CcShowInstancesQuery::create()->findPk(
-                $this->ccShowInstance->getDbOriginalShow());
+            $recordedShow = CcShowInstancesQuery::create()
+                ->filterByCcShow($this->ccShowInstance->getDbOriginalShow())
+                ->findOne();
             if (is_null($recordedShow)) {
                 $this->ccShowInstance->delete();
                 throw new Exception(_("Show was deleted because recorded show does not exist!"));
@@ -298,9 +309,10 @@ class Application_Service_CalendarService
                 //we can get the first show day because we know the show is
                 //not repeating, and therefore will only have one show day entry
                 $ccShowDay = $this->ccShow->getFirstCcShowDay();
+                $showTimezone = new DateTimeZone($ccShowDay->getDbTimezone());
                 $ccShowDay
-                    ->setDbFirstShow($newStartsDateTime)
-                    ->setDbLastShow($newEndsDateTime)
+                    ->setDbFirstShow($newStartsDateTime->setTimezone($showTimezone)->format("Y-m-d"))
+                    ->setDbStartTime($newStartsDateTime->format("H:i"))
                     ->save();
             }
 

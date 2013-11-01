@@ -17,8 +17,9 @@ class Application_Model_Scheduler
     private $epochNow;
     private $nowDT;
     private $user;
-    
+
     private $crossfadeDuration;
+    private $applyCrossfades = true;
 
     private $checkUserPermissions = true;
 
@@ -40,7 +41,7 @@ class Application_Model_Scheduler
         }
 
         $this->user = Application_Model_User::getCurrentUser();
-        
+
         $this->crossfadeDuration = Application_Model_Preference::GetDefaultCrossfadeDuration();
     }
 
@@ -200,9 +201,12 @@ class Application_Model_Scheduler
             } else {
                 $data = $this->fileInfo;
                 $data["id"] = $id;
-                $data["cliplength"] = Application_Model_StoredFile::getRealClipLength(
-                    $file->getDbCuein(),
-                    $file->getDbCueout());
+
+                $cuein = Application_Common_DateHelper::playlistTimeToSeconds($file->getDbCuein());
+                $cueout = Application_Common_DateHelper::playlistTimeToSeconds($file->getDbCueout());
+                $row_length = Application_Common_DateHelper::secondsToPlaylistTime($cueout - $cuein);
+
+                $data["cliplength"] = $row_length;
 
                 $data["cuein"] = $file->getDbCuein();
                 $data["cueout"] = $file->getDbCueout();
@@ -265,11 +269,11 @@ class Application_Model_Scheduler
                                 $cuein = Application_Common_DateHelper::calculateLengthInSeconds($data["cuein"]);
                                 $cueout = Application_Common_DateHelper::calculateLengthInSeconds($data["cueout"]);
                                 $data["cliplength"] = Application_Common_DateHelper::secondsToPlaylistTime($cueout - $cuein);
-                                
+
                                 //fade is in format SS.uuuuuu
                                 $data["fadein"] = $defaultFadeIn;
                                 $data["fadeout"] = $defaultFadeOut;
-                                
+
                                 $data["type"] = 0;
                                 $files[] = $data;
                             }
@@ -324,11 +328,11 @@ class Application_Model_Scheduler
                         $cuein = Application_Common_DateHelper::calculateLengthInSeconds($data["cuein"]);
                         $cueout = Application_Common_DateHelper::calculateLengthInSeconds($data["cueout"]);
                         $data["cliplength"] = Application_Common_DateHelper::secondsToPlaylistTime($cueout - $cuein);
-                        
+
                         //fade is in format SS.uuuuuu
                 		$data["fadein"] = $defaultFadeIn;
                 		$data["fadeout"] = $defaultFadeOut;
-                		
+
                         $data["type"] = 0;
                         $files[] = $data;
                     }
@@ -338,7 +342,7 @@ class Application_Model_Scheduler
 
         return $files;
     }
-    
+
     /*
      * @param DateTime startDT in UTC
     *  @param string duration
@@ -349,18 +353,18 @@ class Application_Model_Scheduler
     private function findTimeDifference($p_startDT, $p_seconds)
     {
     	$startEpoch = $p_startDT->format("U.u");
-    	
+
     	//add two float numbers to 6 subsecond precision
     	//DateTime::createFromFormat("U.u") will have a problem if there is no decimal in the resulting number.
     	$newEpoch = bcsub($startEpoch , (string) $p_seconds, 6);
-    
+
     	$dt = DateTime::createFromFormat("U.u", $newEpoch, new DateTimeZone("UTC"));
-    
+
     	if ($dt === false) {
     		//PHP 5.3.2 problem
     		$dt = DateTime::createFromFormat("U", intval($newEpoch), new DateTimeZone("UTC"));
     	}
-    
+
     	return $dt;
     }
 
@@ -397,6 +401,7 @@ class Application_Model_Scheduler
 
         //check for if the show has started.
         if (bccomp( $nEpoch , $sEpoch , 6) === 1) {
+            $this->applyCrossfades = false;
             //need some kind of placeholder for cc_schedule.
             //playout_status will be -1.
             $nextDT = $this->nowDT;
@@ -420,7 +425,7 @@ class Application_Model_Scheduler
 
         return $nextDT;
     }
-    
+
     /*
      * @param int $showInstance
      *   This function recalculates the start/end times of items in a gapless show to
@@ -451,8 +456,8 @@ class Application_Model_Scheduler
             $itemEndDT = $this->findEndTime($itemStartDT, $item["clip_length"]);
 
             $update_sql = "UPDATE cc_schedule SET ".
-                "starts = '{$itemStartDT->format("Y-m-d H:i:s")}', ".
-                "ends = '{$itemEndDT->format("Y-m-d H:i:s")}' ".
+                "starts = '{$itemStartDT->format("Y-m-d H:i:s.u")}', ".
+                "ends = '{$itemEndDT->format("Y-m-d H:i:s.u")}' ".
                 "WHERE id = {$item["id"]}";
             Application_Common_Database::prepareAndExecute(
                 $update_sql, array(), Application_Common_Database::EXECUTE);
@@ -499,7 +504,7 @@ class Application_Model_Scheduler
     }
 
     /**
-     * 
+     *
      * Enter description here ...
      * @param $scheduleItems
      *     cc_schedule items, where the items get inserted after
@@ -530,6 +535,9 @@ class Application_Model_Scheduler
             $linked = false;
 
             foreach ($scheduleItems as $schedule) {
+                //reset
+                $this->applyCrossfades = true;
+
                 $id = intval($schedule["id"]);
 
                 /* Find out if the show where the cursor position (where an item will
@@ -592,6 +600,9 @@ class Application_Model_Scheduler
 
                 $excludePositions = array();
                 foreach($instances as &$instance) {
+                    //reset
+                    $this->applyCrossfades = true;
+
                     $instanceId = $instance["id"];
                     if ($id !== 0) {
                         /* We use the selected cursor's position to find the same
@@ -611,11 +622,6 @@ class Application_Model_Scheduler
                             $instanceId);
 
                         $pos++;
-
-                        /* Show is not empty so we need to apply crossfades
-                         * for the first inserted item
-                         */
-                        $applyCrossfades = true;
                     }
                     //selected empty row to add after
                     else {
@@ -628,7 +634,7 @@ class Application_Model_Scheduler
                         /* Show is empty so we don't need to calculate crossfades
                          * for the first inserted item
                          */
-                        $applyCrossfades = false;
+                        $this->applyCrossfades = false;
                     }
 
                     if (!in_array($instanceId, $affectedShowInstances)) {
@@ -643,7 +649,7 @@ class Application_Model_Scheduler
 
                         $pstart = microtime(true);
 
-                        if ($applyCrossfades) {
+                        if ($this->applyCrossfades) {
                             $initalStartDT = clone $this->findTimeDifference(
                                 $nextStartDT, $this->crossfadeDuration);
                         } else {
@@ -727,7 +733,7 @@ class Application_Model_Scheduler
                             default: break;
                         }
 
-                        if ($applyCrossfades) {
+                        if ($this->applyCrossfades) {
                             $nextStartDT = $this->findTimeDifference($nextStartDT,
                                 $this->crossfadeDuration);
                             $endTimeDT = $this->findEndTime($nextStartDT, $file['cliplength']);
@@ -735,14 +741,14 @@ class Application_Model_Scheduler
                             /* Set it to false because the rest of the crossfades
                              * will be applied after we insert each item
                              */
-                            $applyCrossfades = false;
+                            $this->applyCrossfades = false;
                         }
 
                         $endTimeDT = $this->findEndTime($nextStartDT, $file['cliplength']);
                         if ($doInsert) {
                             $values[] = "(".
-                                "'{$nextStartDT->format("Y-m-d H:i:s")}', ".
-                                "'{$endTimeDT->format("Y-m-d H:i:s")}', ".
+                                "'{$nextStartDT->format("Y-m-d H:i:s.u")}', ".
+                                "'{$endTimeDT->format("Y-m-d H:i:s.u")}', ".
                                 "'{$file["cuein"]}', ".
                                 "'{$file["cueout"]}', ".
                                 "'{$file["fadein"]}', ".
@@ -755,8 +761,8 @@ class Application_Model_Scheduler
 
                         } elseif ($doUpdate) {
                             $update_sql = "UPDATE cc_schedule SET ".
-                                "starts = '{$nextStartDT->format("Y-m-d H:i:s")}', ".
-                                "ends = '{$endTimeDT->format("Y-m-d H:i:s")}', ".
+                                "starts = '{$nextStartDT->format("Y-m-d H:i:s.u")}', ".
+                                "ends = '{$endTimeDT->format("Y-m-d H:i:s.u")}', ".
                                 "cue_in = '{$file["cuein"]}', ".
                                 "cue_out = '{$file["cueout"]}', ".
                                 "fade_in = '{$file["fadein"]}', ".
@@ -824,8 +830,8 @@ class Application_Model_Scheduler
                             $endTimeDT = $this->findEndTime($nextStartDT, $item["clip_length"]);
                             $endTimeDT = $this->findTimeDifference($endTimeDT, $this->crossfadeDuration);
                             $update_sql = "UPDATE cc_schedule SET ".
-                                "starts = '{$nextStartDT->format("Y-m-d H:i:s")}', ".
-                                "ends = '{$endTimeDT->format("Y-m-d H:i:s")}', ".
+                                "starts = '{$nextStartDT->format("Y-m-d H:i:s.u")}', ".
+                                "ends = '{$endTimeDT->format("Y-m-d H:i:s.u")}', ".
                                 "position = {$pos} ".
                                 "WHERE id = {$item["id"]}";
                             Application_Common_Database::prepareAndExecute(
@@ -882,7 +888,7 @@ class Application_Model_Scheduler
 
     private function updateMovedItem()
     {
-        
+
     }
 
     private function getInstances($instanceId)
@@ -1102,7 +1108,7 @@ class Application_Model_Scheduler
                 } else {
                     $removedItem->delete($this->con);
                 }
-                
+
                 // update is_scheduled in cc_files but only if
                 // the file is not scheduled somewhere else
                 $fileId = $removedItem->getDbFileId();
