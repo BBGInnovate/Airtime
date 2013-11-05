@@ -1,5 +1,5 @@
 import threading
-import schedule.pypofetch
+import pypofetch
 
 def __timeout(func, timeout_duration, default, args, kwargs):
 
