@@ -77,18 +77,22 @@
 					      </thead>
 
 					      <tbody role="alert" aria-live="polite" aria-relevant="all">
-						  <? foreach ($this->tracks as $index => $track): ?>
-					         <tr class="<?= $index % 2 ? 'odd' : 'even' ?> sc-audio ui-draggable" id="sc_<?= $track['id'] ?>">
-					            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?= $track['id'] ?>" /></td>
-					            <td class="sclibrary_title sorting_1"><a target="soundcloud" href="<?= $track['permalink_url'] ?><?= $track['sharing']=='public'?'':'/'.$track['secret_token'] ?>" class="text-link soundcloud-title"><?= $track['title'] ?></a></td>
-					            <td class="sclibrary_creator"><?= $track['user']['username'] ?></td>
-					            <td class="sclibrary_length">
-									<? $sec = $track['duration'] / 1000 ?>
-								    <? printf('%d', $sec / 60 % 60) ?>:<? printf('%d', $sec % 60) ?>
+						  <?php foreach ($this->tracks as $index => $track): ?>
+					         <tr class="<?php echo $index % 2 ? 'odd' : 'even'; ?> sc-audio ui-draggable" id="sc_<?php echo $track['id']; ?>">
+					            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?php echo $track['id']; ?>" /></td>
+					            <td class="sclibrary_title sorting_1">
+					            	<a target="soundcloud" href="<?php echo $track['permalink_url']; ?><?php echo $track['sharing']=='public'?'':'/'.$track['secret_token']; ?>" class="text-link soundcloud-title">
+					            		<?php echo $track['title']; ?>
+					            	</a>
 					            </td>
-					            <td class="sclibrary_upload_time"><?= $track['created_at'] ?></td>
+					            <td class="sclibrary_creator"><?php echo $track['user']['username']; ?></td>
+					            <td class="sclibrary_length">
+									<?php $sec = $track['duration'] / 1000; ?>
+								    <?php printf('%d', $sec / 60 % 60); ?>:<?php printf('%d', $sec % 60); ?>
+					            </td>
+					            <td class="sclibrary_upload_time"><?php print $track['created_at']; ?></td>
 					         </tr>
-						 <? endforeach ?>
+						 <?php endforeach ?>
 
 						</tbody>
 					</table>
@@ -139,15 +143,19 @@
 						      <tbody role="alert" aria-live="polite" aria-relevant="all">
 								<?php foreach ($group['tracks'] as $track): ?> 
 								  <?php if($track['downloadable'] || $track['user_id'] == $this->user['id']): ?>
-							         <tr class="<?= $index % 2 ? 'odd' : 'even' ?> sc-audio ui-draggable" id="sc_<?= $track['id'] ?>">
-							            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?= $track['id'] ?>" /></td>
-							            <td class="sclibrary_title sorting_1"><a target="soundcloud" href="<?= $track['permalink_url'] ?><?= $track['sharing']=='public'?'':'/'.$track['secret_token'] ?>" class="text-link soundcloud-title"><?= $track['title'] ?></a></td>
-							            <td class="sclibrary_creator"><?= $track['user']['username'] ?></td>
-							            <td class="sclibrary_length">
-											<? $sec = $track['duration'] / 1000 ?>
-										    <? printf('%d', $sec / 60 % 60) ?>:<? printf('%d', $sec % 60) ?>
+							         <tr class="<?php echo $index % 2 ? 'odd' : 'even'; ?> sc-audio ui-draggable" id="sc_<?php echo $track['id']; ?>">
+							            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?php echo $track['id']; ?>" /></td>
+							            <td class="sclibrary_title sorting_1">
+							            	<a target="soundcloud" href="<?php $track['permalink_url']; ?><?php echo $track['sharing']=='public'?'':'/'.$track['secret_token']; ?>" class="text-link soundcloud-title">
+							            		<?php echo $track['title']; ?>
+							            	</a>
 							            </td>
-							            <td class="sclibrary_upload_time"><?= $track['created_at'] ?></td>
+							            <td class="sclibrary_creator"><?php echo $track['user']['username']; ?></td>
+							            <td class="sclibrary_length">
+											<?php $sec = $track['duration'] / 1000; ?>
+										    <?php printf('%d', $sec / 60 % 60); ?>:<?php printf('%d', $sec % 60); ?>
+							            </td>
+							            <td class="sclibrary_upload_time"><?php echo $track['created_at'] ?></td>
 							         </tr>
 							       <?php endif; ?>
 								  <?php endforeach; ?>
@@ -202,15 +210,19 @@
 						      <tbody role="alert" aria-live="polite" aria-relevant="all">
 								<?php foreach ($playlist['tracks'] as $track): ?> 
 								  <?php if($track['downloadable'] || $track['user_id'] == $this->user['id']): ?>
-							         <tr class="<?= $index % 2 ? 'odd' : 'even' ?> sc-audio ui-draggable" id="sc_<?= $track['id'] ?>">
-							            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?= $track['id'] ?>" /></td>
-							            <td class="sclibrary_title sorting_1"><a target="soundcloud" href="<?= $track['permalink_url'] ?><?= $track['sharing']=='public'?'':'/'.$track['secret_token'] ?>" class="text-link soundcloud-title"><?= $track['title'] ?></a></td>
-							            <td class="sclibrary_creator"><?= $track['user']['username'] ?></td>
-							            <td class="sclibrary_length">
-											<? $sec = $track['duration'] / 1000 ?>
-										    <? printf('%d', $sec / 60 % 60) ?>:<? printf('%d', $sec % 60) ?>
+							         <tr class="<?php echo $index % 2 ? 'odd' : 'even'; ?> sc-audio ui-draggable" id="sc_<?php echo $track['id']; ?>">
+							            <td class="sclibrary_checkbox"><input type="radio" name="soundcloud_files" value="<?php echo $track['id']; ?>" /></td>
+							            <td class="sclibrary_title sorting_1">
+							            	<a target="soundcloud" href="<?php echo $track['permalink_url']; ?><?php echo $track['sharing']=='public'?'':'/'.$track['secret_token']; ?>" class="text-link soundcloud-title">
+							            		<?php echo $track['title']; ?>
+							            	</a>
 							            </td>
-							            <td class="sclibrary_upload_time"><?= $track['created_at'] ?></td>
+							            <td class="sclibrary_creator"><?php echo $track['user']['username']; ?></td>
+							            <td class="sclibrary_length">
+											<?php $sec = $track['duration'] / 1000; ?>
+										    <?php printf('%d', $sec / 60 % 60); ?>:<?php printf('%d', $sec % 60); ?>
+							            </td>
+							            <td class="sclibrary_upload_time"><?php echo $track['created_at']; ?></td>
 							         </tr>
 							       <?php endif; ?>
 								<?php endforeach; ?>

@@ -55,18 +55,18 @@
 						      </thead>
 
 						      <tbody role="alert" aria-live="polite" aria-relevant="all">
-							  <? foreach ($this->tracks as $index => $track): ?>
-						         <tr class="<?= $index % 2 ? 'odd' : 'even' ?> audio ui-draggable" id="item_<?= $track->nid ?>">
-						            <td class="usimdirect_library_checkbox"><input type="radio" name="usimdirect_files" value="<?= $track->nid ?>" /></td>
-						            <td class="library_title sorting_1"><?= $track->node->title ?></td>
-						            <td class="library_creator"><?= $track->node->field_credit->und[0]->value ?></td>
+							  <?php foreach ($this->tracks as $index => $track): ?>
+						         <tr class="<?php echo $index % 2 ? 'odd' : 'even'; ?> audio ui-draggable" id="item_<?php echo $track->nid; ?>">
+						            <td class="usimdirect_library_checkbox"><input type="radio" name="usimdirect_files" value="<?php echo $track->nid; ?>" /></td>
+						            <td class="library_title sorting_1"><?php echo $track->node->title; ?></td>
+						            <td class="library_creator"><?php echo $track->node->field_credit->und[0]->value; ?></td>
 						            <td class="library_length">
-										<? $total_seconds = $track->node->field_duration->und[0]->value; ?>
-									    <? print gmdate("H:i:s", $total_seconds); ?>
+										<?php $total_seconds = $track->node->field_duration->und[0]->value; ?>
+									    <?php echo gmdate("H:i:s", $total_seconds); ?>
 						            </td>
-						            <td class="library_upload_time"><?= date('c', $track->node->created) ?></td>
+						            <td class="library_upload_time"><?php echo date('c', $track->node->created); ?></td>
 						         </tr>
-							 <? endforeach ?>
+							 <?php endforeach ?>
 
 							</tbody>
 						</table>
